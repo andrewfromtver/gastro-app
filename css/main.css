@@ -1,0 +1,201 @@
+.content {
+    margin: 48px auto 64px auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    min-height: calc(100vh - 112px);
+    width: 100%;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-height: calc(100vh - 112px);
+}
+
+.home > div {
+    width: 100%;
+    margin: 8px 0;
+} 
+
+.home > div > button {
+    width: calc(50% - 20px);
+    margin: 0 8px;
+    outline: none;
+    border: none;
+    padding: 0 0 10px 0;
+    cursor: pointer;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.home > div > button:hover {
+    box-shadow: 0 0 16px #777;
+}
+
+.home > div > button:active {
+    box-shadow: none;
+}
+
+.home > div > button > img {
+    height: calc(50vh - 128px);
+    width: calc(100% - 16px);
+    border-radius: 2px;
+}
+
+.card {
+    background-color: #fff;
+    box-shadow: 0 0 16px #ddd;
+    cursor: pointer;
+    padding-bottom: 8px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 8px auto 0 auto;
+}
+
+.card:hover {
+    box-shadow: 0 0 16px #bbb;
+}
+
+.card:active {
+    box-shadow: 0 0 16px #ddd;
+}
+
+.card > .img {
+    width: calc(100% - 32px);
+    padding: 16px;
+    border-radius: 18px;
+}
+
+.card > .like {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 32px;
+    width: 32px;
+    margin: 20px 16px;
+}
+
+.card > h3 {
+    padding: 0 16px;
+}
+
+.card > p {
+    text-align: left;
+    padding: 0 16px;
+    color: #75a478;
+}
+
+.detail > h2, .detail > h3, .detail > p, .detail > ul, .detail > div > p {
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 2px;
+    margin: 8px 0;
+}
+
+.detail > ul > li {
+    padding: 8px;
+    margin: 0;
+    text-align: left;
+    list-style: inside;
+    font-weight: 500;
+}
+
+.detail > div > button, .list > div > button, .save > div > form > button {
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: #a5d6a7;
+    cursor: pointer;
+    margin: 8px auto;
+    border-radius: 100%;
+}
+
+.detail > div > button:hover, .list > div > button:hover, .save > div > form > button:hover {
+    background-color: #d7ffd9;
+}
+
+.detail > div > button:active, .list > div > button:active, .save > div > form > button:active {
+    background-color: #75a478;
+}
+
+.list > table {
+    background-color: #fff;
+    box-shadow: 0 0 16px #ddd;
+    padding-bottom: 8px;
+    border-radius: 2px;
+    padding: 16px;
+    margin: 8px auto 0 auto;
+    width: 100%;
+}
+
+.list > table > tbody > tr > td:nth-child(1), .list > table > thead > tr > th:nth-child(1) {
+    border-bottom: 1px solid #333;
+    padding: 16px;
+}
+
+.list > table > tbody > tr > td > input {
+    outline: none;
+    border: none;
+    width: calc(100% - 32px);
+}
+
+.list > table > tbody > tr > td:nth-child(1) {
+    text-align: left;
+}
+
+.list > table > thead > tr > th:nth-child(1) > h3 {
+    margin: 0 auto 8px auto;
+}
+
+.save > div > form {
+    display: flex;
+    flex-direction: column;
+}
+
+.save > div > form > div {
+    border-radius: 2px;
+    box-shadow: 0 0 16px #ddd;
+    background-color: #fff;
+}
+
+.save > div > form > div > input {
+    outline: none;
+    border: none;
+    height: 32px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #333;
+    margin: 8px 16px 16px 16px;
+    width: calc(100% - 64px);
+}
+
+.dell {
+    background-color: #ef9a9a;
+    border-radius: 100%;
+    cursor: pointer;
+    position: absolute;
+    margin-left: -40px;
+    margin-top: 4px;
+}
+
+.dell > img {
+    height: 24px;
+    width: 24px;
+    margin: 8px 8px 4px 8px;
+}
+
+#components > tr > td {
+    cursor: pointer;
+}
+
+#components > tr > td:hover {
+    opacity: 0.8;
+    box-shadow: 0 0 16px #ddd;
+}
+
+#components > tr > td:active {
+    opacity: 0.5;
+    box-shadow: none;
+}

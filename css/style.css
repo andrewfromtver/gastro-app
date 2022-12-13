@@ -1,0 +1,174 @@
+* {
+    font-family: sans-serif;
+    color: #333;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow-y: scroll;
+    background-attachment: fixed;
+    background-color: #eee;
+}
+
+button {
+    box-shadow: 0 0 16px #ddd;
+    font-weight: 900;
+    padding: 8px 8px 4px 8px;
+}
+
+button > img {
+    height: 24px;
+    width: 24px;
+    margin: 8px;
+}
+
+nav {
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 48px;
+    background-color: #fff;
+    box-shadow: 0 0 16px #ddd;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 0 0 2px 2px;
+    overflow: hidden;
+}
+
+nav > div > h2 {
+    margin: auto 0 auto 16px;
+}
+
+nav > div {
+    display: flex;
+    flex-direction: row;
+}
+
+nav > div > img {
+    height: 40px;
+    width: 40px;
+    margin: 4px;
+    border-radius: 100%;
+}
+
+nav > div > p {
+    margin: auto 4px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+nav > div > button {
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: #ef9a9a;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+nav > div > button:hover {
+    background-color: #ffcccb;
+}
+
+nav > div > button:active {
+    background-color: #ba6b6c;
+}
+
+nav > div > button > img {
+    height: 24px;
+    width: 24px;
+    margin: 0;
+}
+
+footer > button {
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: #a5d6a7;
+    cursor: pointer;
+    height: 32px;
+    margin: auto;
+    width: 200px;
+}
+
+footer > button:hover {
+    background-color: #d7ffd9;
+}
+
+footer > button:active {
+    background-color: #75a478;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 56px;
+    box-shadow: 0 0 16px #ddd;
+    background-color: #fff;
+    border-radius: 2px 2px 0 0;
+    overflow: hidden;
+}
+
+footer > img {
+    width: 32px;
+    height: 32px;
+    margin: 8px;
+    cursor: pointer;
+}
+
+footer > img:hover {
+    width: 36px;
+    height: 36px;
+    margin: 6px;
+    filter: drop-shadow(0 0 16px #333);
+}
+
+footer > img:active {
+    width: 28px;
+    height: 28px;
+    margin: 10px;
+    filter: none;
+}
+
+#gastro-app {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+#background {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+#tutorial {
+    width: 100%;
+    margin: 16px auto;
+    border-radius: 16px;
+    height: calc(100vh - 144px);
+    background-color: #eee;
+}
