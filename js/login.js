@@ -15,15 +15,16 @@ const previewFile = () => {
     }
     document.querySelector('input[type=file]').value = ''
 }
-const checkImage = () => {
-    let photoSrc = false
-    if (photoSrc) {
-        document.querySelector('#photo').src = photoSrc
-    }
-    else {
-        document.querySelector('#photo').src = './assets/noavatar.png'
-    }
-    document.querySelector('input[type=file]').value = ''
+const checkImage = (username) => {
+    getUserFromDb(username, (data) => { 
+        if (data[0]) {
+            document.querySelector('#photo').src = data[0].userpic
+        }
+        else {
+            document.querySelector('#photo').src = './assets/noavatar.png'
+        }
+        document.querySelector('input[type=file]').value = ''
+    })
 }
 
 // render wellcome page
@@ -38,7 +39,7 @@ const addUser = () => {
                 <label>Логин</label>
                 <input 
                     type="text" 
-                    oninput="checkImage(this)" 
+                    oninput="checkImage(this.value)" 
                     id="username" 
                     name="username" 
                     maxlength="8" 
@@ -69,10 +70,17 @@ const addUser = () => {
 // render tutorial page
 const initApp = (data = false) => {
     event.preventDefault()
-    let photo = false
+    let photo = './assets/noavatar.png'
     if (document.querySelector('#photo')) photo = document.querySelector('#photo').src
     let inner = ''
     let inner2 = ''
+    let dbData = {
+        username: data.username,
+        userpic: photo,
+        useragent: data.useragent
+    }
+    delUserFromDb(data.username)
+    addUserToDb(dbData)
     if (data) {
         localStorage.setItem('Session', JSON.stringify(data))
         inner += `

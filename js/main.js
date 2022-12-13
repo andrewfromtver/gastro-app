@@ -185,6 +185,7 @@ const likedListPage = () => {
 
 // start script execution
 window.onload = () => {
+    initDb()
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     if (localStorage.getItem('Session')) {
         let globalJson = JSON.parse(localStorage.getItem('Session'))
