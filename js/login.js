@@ -29,9 +29,6 @@ const checkImage = (element) => {
 // render wellcome page
 const addUser = () => {
     let inner = `
-        <video autoplay muted loop id="background">
-            <source src="./assets/bg.mp4" type="video/mp4">
-        </video>
         <div class="wellcome animate__animated animate__pulse">
             <h2>Gastro App</h2>
             <form id="adduser" onsubmit="initApp({

@@ -27,7 +27,9 @@ const addItem = () => {
                 <td>
                     <input oninput="editItem()" type="text" value="${e}">
                 </td>
-                <td id="${id}" class="dell" onclick="delItem(this.id)">X</td>
+                <td id="${id}" class="dell" onclick="delItem(this.id)">
+                    <img src="./assets/delete.svg">
+                </td>
             </tr>
         `
     })
@@ -36,7 +38,9 @@ const addItem = () => {
             <td>
                 <input oninput="editItem()" type="text">
             </td>
-            <td id="${id}" class="dell" onclick="delItem(this.id)">X</td>
+            <td id="${id}" class="dell" onclick="delItem(this.id)">
+                <img src="./assets/delete.svg">
+            </td>
         </tr>
     `
     components.innerHTML +=inner
