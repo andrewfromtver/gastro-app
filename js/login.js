@@ -15,10 +15,10 @@ const previewFile = () => {
     }
     document.querySelector('input[type=file]').value = ''
 }
-const checkImage = (element) => {
-    let username = element.value
-    if (localStorage.getItem(`${username}_image`)) {
-        document.querySelector('#photo').src = localStorage.getItem(`${username}_image`)
+const checkImage = () => {
+    let photoSrc = false
+    if (photoSrc) {
+        document.querySelector('#photo').src = photoSrc
     }
     else {
         document.querySelector('#photo').src = './assets/noavatar.png'
@@ -33,7 +33,6 @@ const addUser = () => {
             <h2>Gastro App</h2>
             <form id="adduser" onsubmit="initApp({
                 username: document.querySelector('input').value,
-                userpic: document.querySelector('#photo').src || './assets/noavatar.png',
                 useragent: window.navigator.userAgent || 'Not defined'
             })">
                 <label>Логин</label>
@@ -70,11 +69,12 @@ const addUser = () => {
 // render tutorial page
 const initApp = (data = false) => {
     event.preventDefault()
+    let photo = false
+    if (document.querySelector('#photo')) photo = document.querySelector('#photo').src
     let inner = ''
     let inner2 = ''
     if (data) {
         localStorage.setItem('Session', JSON.stringify(data))
-        localStorage.setItem(`${data.username}_image`, data.userpic)
         inner += `
             <nav>
                 <div class="title">
@@ -82,7 +82,7 @@ const initApp = (data = false) => {
                 </div>
                 <div>
                     <p>${data.username}</p>
-                    <img src="${data.userpic}" alt="userpic">
+                    <img src="${photo || './assets/noavatar.png'}" alt="userpic">
                     <button id="logout">
                         <img src="./assets/logout.svg">
                     </button>
