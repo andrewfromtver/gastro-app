@@ -184,6 +184,7 @@ const likedListPage = () => {
 }
 
 // start script execution
+let idbSupport = false
 window.onload = () => {
     initDb()
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'

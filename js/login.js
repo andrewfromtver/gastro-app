@@ -16,7 +16,7 @@ const previewFile = () => {
     document.querySelector('input[type=file]').value = ''
 }
 const checkImage = (username) => {
-    getUserFromDb(username, (data) => { 
+    if (idbSupport)  getUserFromDb(username, (data) => { 
         if (data[0]) {
             document.querySelector('#photo').src = data[0].userpic
         }
@@ -79,8 +79,10 @@ const initApp = (data = false) => {
         userpic: photo,
         useragent: data.useragent
     }
-    delUserFromDb(data.username)
-    addUserToDb(dbData)
+    if (idbSupport) {
+        delUserFromDb(data.username)
+        addUserToDb(dbData)
+    }
     if (data) {
         localStorage.setItem('Session', JSON.stringify(data))
         inner += `

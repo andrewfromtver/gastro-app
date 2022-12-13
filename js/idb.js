@@ -1,16 +1,20 @@
 // indexed DB
 const initDb = () => {
-    const dbName = "gastro-app"
-    const request = indexedDB.open(dbName, 1)
-    request.onerror = (e) => {
-      console.error(e)
+    if (('indexedDB' in window)) {
+        const dbName = "gastro-app"
+        const request = indexedDB.open(dbName, 1)
+        request.onerror = (e) => {
+        console.error(e)
+        }
+        request.onupgradeneeded = (event) => {
+        const db = event.target.result
+        const objectStore = db.createObjectStore("users", { keyPath: "username" })
+        
+        objectStore.createIndex("users_idx", "username", { unique: true })
+        }
+        idbSupport = true
     }
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result
-      const objectStore = db.createObjectStore("users", { keyPath: "username" })
-    
-      objectStore.createIndex("users_idx", "username", { unique: true })
-    }
+    else idbSupport = false
 }
 const addUserToDb = (userData) => {
     const dbName = "gastro-app"
