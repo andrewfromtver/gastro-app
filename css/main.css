@@ -216,4 +216,55 @@
     margin: 16px 8px 8px 8px;
     width: calc(25% - 48px);
     min-width: 96px;
+    border-radius: 2px;
+}
+
+.counters > div > p {
+    font-weight: 200;
+    font-size: 12px;
+}
+
+.feedback {
+    background-color: #fff;
+    margin: 16px 8px;
+    border-radius: 2px;
+    box-shadow: 0 0 16px #ddd;
+    padding: 0 16px 16px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback > label {
+    font-size: 12px;
+    font-weight: 700;
+    text-align: start;
+    margin: 8px;
+}
+
+.feedback > input {
+    margin-bottom: 16px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #333;
+    height: 24px;
+    outline: none;
+    text-align: start;
+}
+
+.feedback > button {
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: #a5d6a7;
+    cursor: pointer;
+    margin: 24px auto 8px auto;
+    border-radius: 100%;
+}
+
+.feedback > button:hover {
+    background-color: #d7ffd9;
+}
+
+.feedback > button:active {
+    background-color: #75a478;
 }

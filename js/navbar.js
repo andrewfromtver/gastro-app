@@ -123,35 +123,39 @@ const statPage = () => {
     let itemsInCurrentList = 0
     if (sessionStorage.getItem(`${username}_list`)) itemsInCurrentList = JSON.parse(sessionStorage.getItem(`${username}_list`)).length 
     let inner = `
-        <div class="counters">
+        <div class="counters animate__animated animate__zoomIn">
             <div>
                 <h2>${menuItemsQty}</h2>
-                <p>блюд</p>
+                <h3>блюд</h3>
                 <p>В базе рецептов</p>
             </div>
             <div>
                 <h2>${likedMenuItemsQty}</h2> 
-                <p>рецептов</p>       
+                <h3>рецептов</h3>       
                 <p>Вам понравилось</p>
             </div>
             <div>
                 <h2>${likedListsQty}</h2>
-                <p>сохранено</p>
+                <h3>сохранено</h3>
                 <p>Списков покупок</p>
             </div>
             <div>
                 <h2>${itemsInCurrentList}</h2>
-                <p>товаров</p>
+                <h3>товаров</h3>
                 <p>В текущем списке</p>
             </div>
         </div>
-        <form id="feedback">
+        <form class="feedback animate__animated animate__zoomIn" id="feedback">
+            <h3>Отправьте нам Ваш рецепт</h3>
             <label>Вашe имя или псевдоним</label>
             <input type="text" required>
             <label>Ваш рецепт</label>
             <textarea required></textarea>
-            <button>Отправить</button>
+            <button>
+                <img src="./assets/send.svg">
+            </button>
         </form>
     `
     document.querySelector('.content').innerHTML = inner
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
