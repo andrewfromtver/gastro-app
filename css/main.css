@@ -29,6 +29,7 @@
     cursor: pointer;
     border-radius: 2px;
     overflow: hidden;
+    background-color: #fff;
 }
 
 .home > div > button:hover {
@@ -43,6 +44,7 @@
     height: calc(50vh - 128px);
     width: calc(100% - 16px);
     border-radius: 2px;
+    object-fit: contain;
 }
 
 .card {
