@@ -52,7 +52,7 @@
 }
 
 .home > div > button > img {
-    height: calc(50vh - 128px);
+    height: calc(50vh - 118px);
     width: calc(100% - 16px);
     border-radius: 2px;
     object-fit: contain;
