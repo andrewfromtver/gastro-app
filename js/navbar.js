@@ -111,7 +111,7 @@ const useListPage = () => {
 }
 const statPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
-    document.querySelector('body').style.backgroundImage = ''
+    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('.title').innerHTML = `
         <h2 class="animate__animated animate__slideInLeft">Статистика</h2>
     `
@@ -124,14 +124,26 @@ const statPage = () => {
     if (sessionStorage.getItem(`${username}_list`)) itemsInCurrentList = JSON.parse(sessionStorage.getItem(`${username}_list`)).length 
     let inner = `
         <div class="counters">
-            <h2>${menuItemsQty}</h2>
-            <p>Рецептов в базе</p>
-            <h2>${likedMenuItemsQty}</h2>
-            <p>Избранных рецептов</p>
-            <h2>${likedListsQty}</h2>
-            <p>Избранных списков</p>
-            <h2>${itemsInCurrentList}</h2>
-            <p>В текущем списке</p>
+            <div>
+                <h2>${menuItemsQty}</h2>
+                <p>блюд</p>
+                <p>В базе рецептов</p>
+            </div>
+            <div>
+                <h2>${likedMenuItemsQty}</h2> 
+                <p>рецептов</p>       
+                <p>Вам понравилось</p>
+            </div>
+            <div>
+                <h2>${likedListsQty}</h2>
+                <p>сохранено</p>
+                <p>Списков покупок</p>
+            </div>
+            <div>
+                <h2>${itemsInCurrentList}</h2>
+                <p>товаров</p>
+                <p>В текущем списке</p>
+            </div>
         </div>
         <form id="feedback">
             <label>Вашe имя или псевдоним</label>

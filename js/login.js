@@ -46,18 +46,26 @@ const addUser = () => {
                     placeholder="Имя или псевдоним (не более 8 символов)"
                     required
                 >
-                <button onclick="document.body.querySelector('#userpic').click()" type="button">
-                    <img src="./assets/add_a_photo.svg">
-                    <input
-                        hidden
-                        type="file" 
-                        onchange="previewFile()" 
-                        id="userpic" 
-                        name="userpic" 
-                        accept=".jpg, .jpeg, .png"
-                    >
-                </button>
-                <img id="photo" src="./assets/noavatar.png" alt="userpic-preview">
+    `
+    
+    if (idbSupport) {
+        inner += `
+            <button onclick="document.body.querySelector('#userpic').click()" type="button">
+                <img src="./assets/add_a_photo.svg">
+                <input
+                    hidden
+                    type="file" 
+                    onchange="previewFile()" 
+                    id="userpic" 
+                    name="userpic" 
+                    accept=".jpg, .jpeg, .png"
+                >
+            </button>
+            <img id="photo" src="./assets/noavatar.png" alt="userpic-preview">
+        `
+    }
+
+    inner += `
                 <button>
                     <img src="./assets/login.svg">
                 </button>
@@ -92,7 +100,13 @@ const initApp = (data = false) => {
                 </div>
                 <div>
                     <p>${data.username}</p>
-                    <img src="${photo || './assets/noavatar.png'}" alt="userpic">
+        `
+        if (idbSupport) {
+            inner += `
+                <img src="${photo || './assets/noavatar.png'}" alt="userpic">
+            `
+        }
+        inner += `
                     <button id="logout">
                         <img src="./assets/logout.svg">
                     </button>
