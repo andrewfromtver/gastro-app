@@ -22,7 +22,7 @@
 .home {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     min-height: calc(100vh - 112px);
 }
 
@@ -52,7 +52,7 @@
 }
 
 .home > div > button > img {
-    height: calc(50vh - 114px);
+    height: 20vh;
     width: calc(100% - 16px);
     border-radius: 2px;
     object-fit: contain;
