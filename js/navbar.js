@@ -134,6 +134,8 @@ const statPage = () => {
                 <h3>рецептов</h3>       
                 <p>Вам понравилось</p>
             </div>
+        </div>
+        <div class="counters animate__animated animate__zoomIn">
             <div>
                 <h2>${likedListsQty}</h2>
                 <h3>сохранено</h3>

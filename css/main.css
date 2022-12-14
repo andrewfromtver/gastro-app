@@ -206,8 +206,7 @@
 .counters {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .counters > div {
@@ -215,9 +214,8 @@
     box-shadow: 0 0 16px #ddd;
     padding: 16px;
     margin: 16px 8px 8px 8px;
-    width: calc(25% - 48px);
-    min-width: 96px;
     border-radius: 2px;
+    width: 50%;
 }
 
 .counters > div > p {
