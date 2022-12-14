@@ -117,6 +117,18 @@
     margin: 8px 0;
 }
 
+.detail > h2 {
+    font-size: 16px;
+}
+
+.detail > h3 {
+    font-size: 14px;
+}
+
+.detail > p, .detail > ul, .detail > div > p {
+    font-size: 12px;
+}
+
 .detail > ul > li {
     padding: 8px;
     margin: 0;
@@ -235,7 +247,7 @@
     background-color: #fff;
     box-shadow: 0 0 16px #ddd;
     padding: 16px;
-    margin: 16px 8px 8px 8px;
+    margin: 8px 4px 0 4px;
     border-radius: 2px;
     width: 50%;
 }
@@ -247,7 +259,7 @@
 
 .feedback {
     background-color: #fff;
-    margin: 16px 8px;
+    margin: 8px;
     border-radius: 2px;
     box-shadow: 0 0 16px #ddd;
     padding: 0 16px 16px 16px;
