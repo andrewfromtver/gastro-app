@@ -35,7 +35,7 @@ const addUser = () => {
             <form id="adduser" onsubmit="initApp({
                 username: document.querySelector('input').value,
                 useragent: window.navigator.userAgent || 'Not defined'
-            })">
+            }, true)">
                 <label>Логин</label>
                 <input 
                     type="text" 
@@ -76,10 +76,16 @@ const addUser = () => {
 }
 
 // render tutorial page
-const initApp = (data = false) => {
+const initApp = (data = false, userReg = false) => {
     event.preventDefault()
     let photo = './assets/noavatar.png'
     if (document.querySelector('#photo')) photo = document.querySelector('#photo').src
+    if (localStorage.getItem('Session')) {
+        let username = JSON.parse(localStorage.getItem('Session')).username
+        getUserFromDb(username, (data) => {
+            document.body.querySelector('.user-photo').src = data[0].userpic
+        })
+    }
     let inner = ''
     let inner2 = ''
     let dbData = {
@@ -88,7 +94,7 @@ const initApp = (data = false) => {
         useragent: data.useragent
     }
     if (idbSupport) {
-        delUserFromDb(data.username)
+        if (userReg) delUserFromDb(data.username)
         addUserToDb(dbData)
     }
     if (data) {
@@ -103,7 +109,7 @@ const initApp = (data = false) => {
         `
         if (idbSupport) {
             inner += `
-                <img src="${photo || './assets/noavatar.png'}" alt="userpic">
+                <img class="user-photo" src="${photo || './assets/noavatar.png'}" alt="userpic">
             `
         }
         inner += `
