@@ -162,7 +162,7 @@ footer > img:active {
     margin: 16px auto;
     border-radius: 16px;
     height: calc(100vh - 144px);
-    background-color: #eee;
+    background-color: black;
 }
 
 textarea {

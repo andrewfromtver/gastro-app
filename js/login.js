@@ -119,7 +119,7 @@ const initApp = (data = false, userReg = false) => {
                 </div>
             </nav>
             <div class="content">
-                <video autoplay loop id="tutorial" class="animate__animated animate__zoomIn">
+                <video controls autoplay id="tutorial" class="animate__animated animate__zoomIn">
                     <source src="./assets/tutorial.mp4" type="video/mp4">
                 </video>
             </div>
