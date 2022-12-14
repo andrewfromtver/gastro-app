@@ -3,7 +3,6 @@
     "short_name": "Gastro App",
     "start_url": "https://andrewfromtver.github.io/gastro-app/",
     "background_color": "#333333",
-    "scope": "./gastro-app/",
     "theme_color": "#333333",
     "display": "standalone",
     "description": "Список покупок в одном приложении",
