@@ -1,17 +1,17 @@
 {
     "name": "Gastro App рецепты и список покупок",
     "short_name": "Gastro App",
-    "start_url": ".",
+    "start_url": "./gastro-app/",
     "background_color": "#333333",
-    "scope": "/",
+    "scope": "./gastro-app/",
     "theme_color": "#333333",
     "display": "standalone",
     "description": "Список покупок в одном приложении",
     "icons": [
       {
-        "src": "gastro-app/favicon.ico",
+        "src": "./gastro-app/favicon.ico",
         "sizes": "128x128",
-        "type": "image/ico"
+        "type": "image/x-icon"
       }
     ],
     "shortcuts": [
@@ -20,7 +20,7 @@
         "short_name": "Gastro App",
         "description": "Список покупок в одном приложении",
         "url": "/",
-        "icons": [{ "src": "gastro-app/favicon.ico", "sizes": "128x128" }]
+        "icons": [{ "src": "./gastro-app/favicon.ico", "sizes": "128x128" }]
       }
     ]
 }
