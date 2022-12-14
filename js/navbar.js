@@ -138,8 +138,8 @@ const statPage = () => {
         <div class="counters animate__animated animate__zoomIn">
             <div>
                 <h2>${likedListsQty}</h2>
-                <h3>сохранено</h3>
-                <p>Списков покупок</p>
+                <h3>списков</h3>
+                <p>Покупок сохоанено</p>
             </div>
             <div>
                 <h2>${itemsInCurrentList}</h2>
