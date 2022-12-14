@@ -8,6 +8,17 @@
     width: 100%;
 }
 
+.menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.menu-item {
+    width: calc(50% - 8px);
+}
+
 .home {
     display: flex;
     flex-direction: column;

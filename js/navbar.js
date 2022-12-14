@@ -4,10 +4,10 @@ const menuPage = () => {
     document.querySelector('.title').innerHTML = `
         <h2 class="animate__animated animate__slideInLeft">Рецепты</h2>
     `
-    let inner = ''
+    let inner = '<div class="menu">'
     database.forEach(e => {
         inner += `
-            <div onclick="showItem(this.id)" class="card animate__animated animate__zoomIn" id="${e.id}">
+            <div onclick="showItem(this.id)" class="card menu-item animate__animated animate__zoomIn" id="${e.id}">
                 <img class="img"src="${e.img}">
                 <img id="${e.id}" class="like" onclick="likeUnlike(this.id)" src="./assets/like.svg">
                 <h3>${e.title}</h3>
@@ -15,6 +15,7 @@ const menuPage = () => {
             </div>
         `
     })
+    inner += '</div>'
     document.querySelector('.content').innerHTML = inner
     refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })
