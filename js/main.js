@@ -197,3 +197,25 @@ window.onload = () => {
     }
     else addUser()
 }
+
+// feedback
+const sendFeedback = (username, description) => {
+    event.preventDefault()
+    fetch('https://api.telegram.org/bot1070038475:AAHkzMK4T5bmMeFhR22aidxpFkwuzMlObgk/' +
+        'sendMessage?chat_id=-1001490927690&text=' +
+        `Имя => ${username} ` +
+        `Рецепт => ${description}`)
+        .then(e => {
+            if (e.status === 200) {
+                document.body.querySelector('.feedback').innerHTML = `
+                    <h3>Спасибо за отклик</h3>
+                    <p>
+                        Мы получили Ваш рецепт, 
+                        наши специалисты обязательно ознакомятся с ним и 
+                        если такого рецепта не окажется в нашей базе, 
+                        мы его с удовольствием опубликуем. Спасибо!
+                    </p>
+                `
+            }
+        })
+}

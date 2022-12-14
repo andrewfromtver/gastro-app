@@ -145,12 +145,12 @@ const statPage = () => {
                 <p>В текущем списке</p>
             </div>
         </div>
-        <form class="feedback animate__animated animate__zoomIn" id="feedback">
+        <form onsubmit="sendFeedback(this.name.value, this.description.value)" class="feedback animate__animated animate__zoomIn" id="feedback">
             <h3>Отправьте нам Ваш рецепт</h3>
             <label>Вашe имя или псевдоним</label>
-            <input type="text" required>
+            <input name="name" type="text" required>
             <label>Ваш рецепт</label>
-            <textarea required></textarea>
+            <textarea name="description" rows="6" required></textarea>
             <button>
                 <img src="./assets/send.svg">
             </button>

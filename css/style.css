@@ -6,7 +6,6 @@
 html, body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
 }
 
 body {
@@ -16,9 +15,9 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    overflow-y: scroll;
     background-attachment: fixed;
     background-color: #eee;
+    overflow-y: scroll;
 }
 
 button {
@@ -164,4 +163,9 @@ footer > img:active {
     border-radius: 16px;
     height: calc(100vh - 144px);
     background-color: #eee;
+}
+
+textarea {
+    resize: vertical;
+    padding: 16px;
 }
