@@ -75,9 +75,9 @@ nav > div {
 nav > div > img {
     height: 40px;
     width: 40px;
-    height: 32px;
-    width: 32px;
-    margin: 6px -10px 0 8px;
+    height: 24px;
+    width: 24px;
+    margin: 11px -10px 0 8px;
     cursor: pointer;
 }
 
