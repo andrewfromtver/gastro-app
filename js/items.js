@@ -131,12 +131,15 @@ const showItem = (id, backTo = 'menu') => {
         `
     }
     document.querySelector('.content').innerHTML = inner
+    let execOption = 'menuPage()'
+    if (backTo === 'menu') execOption = 'menuPage()'
+    else if (backTo === 'liked') execOption = 'likedMenuPage()'
     document.querySelector('nav').innerHTML = `
         <div class="title">
         <img 
             class="animate__animated animate__slideInLeft" 
             src="./assets/back.svg" 
-            onclick="menuPage()"
+            onclick="${execOption}"
         >
             <h2 class="animate__animated animate__slideInLeft">Детали</h2>
         </div>
