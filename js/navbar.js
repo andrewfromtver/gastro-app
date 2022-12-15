@@ -1,23 +1,34 @@
 // nav buttons
-const menuPage = () => {
+const homePage = () => {
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Рецепты</h2>
+        <h2 class="animate__animated animate__slideInLeft">Gastro App</h2>
     `
-    let inner = '<div class="menu">'
-    database.forEach(e => {
-        inner += `
-            <div onclick="showItem(this.id)" class="card menu-item animate__animated animate__zoomIn" id="${e.id}">
-                <img class="img"src="${e.img}">
-                <img id="${e.id}" class="like" onclick="likeUnlike(this.id)" src="./assets/like.svg">
-                <h3>${e.title}</h3>
-                <p>${e.type}</p>
+    let inner = `
+        <div class="home animate__animated animate__zoomIn">
+            <div>
+                <button onclick="menuPage()">
+                    <img src="./assets/1.gif">
+                    Список рецептов
+                </button>
+                <button onclick="useListPage()">
+                    <img src="./assets/2.gif">
+                    Список покупок
+                </button>
             </div>
-        `
-    })
-    inner += '</div><br>'
+            <div>
+                <button onclick="likedMenuPage()">
+                    <img src="./assets/3.gif">
+                    Избранные рецепты
+                </button>
+                <button onclick="likedListPage()">
+                    <img src="./assets/4.gif">
+                    Избранные покупки
+                </button>
+            </div>
+        </div>
+    `
     document.querySelector('.content').innerHTML = inner
-    refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 const manageListPage = (components = false) => {
