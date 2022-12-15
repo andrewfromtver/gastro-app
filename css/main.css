@@ -8,6 +8,39 @@
     width: 100%;
 }
 
+.searchbar > form {
+    background-color: #fff;
+    margin: 0 8px;
+    border-radius: 2px;
+    box-shadow: 0 0 16px #ddd;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.searchbar > form > input {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #333;
+    margin: 16px 0 16px 16px;
+    width: 100%;
+    outline: none;
+    padding: 8px 16px;
+}
+
+.searchbar > form > button > img {
+    width: 24px;
+    height: 24px;
+}
+
+.searchbar > form > button {
+    outline: none;
+    border: none;
+    background: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
 .menu {
     display: flex;
     flex-direction: row;
@@ -122,7 +155,7 @@
     list-style: inside;
 }
 
-.detail > div > button, .list > div > button, .save > div > form > button {
+.detail > div > button, .list > div > button, .save > div > form > button, #logout {
     border: none;
     background-color: #a5d6a7;
     cursor: pointer;
@@ -130,11 +163,11 @@
     border-radius: 100%;
 }
 
-.detail > div > button:hover, .list > div > button:hover, .save > div > form > button:hover {
+.detail > div > button:hover, .list > div > button:hover, .save > div > form > button:hover, #logout:hover {
     background-color: #d7ffd9;
 }
 
-.detail > div > button:active, .list > div > button:active, .save > div > form > button:active {
+.detail > div > button:active, .list > div > button:active, .save > div > form > button:active, #logout:active {
     background-color: #75a478;
 }
 
@@ -236,7 +269,7 @@
 
 .feedback {
     background-color: #fff;
-    margin: 8px;
+    margin: 8px 4px;
     border-radius: 2px;
     box-shadow: 0 0 16px #ddd;
     padding: 0 16px 16px 16px;
@@ -274,3 +307,10 @@
 .feedback > button:active {
     background-color: #75a478;
 }
+
+.user-photo {
+    border-radius: 2px;
+    margin: 8px auto 0 auto;
+    width: calc(100% - 8px);
+}
+

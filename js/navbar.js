@@ -1,11 +1,21 @@
 // nav buttons
 const homePage = () => {
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
-    document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Gastro App</h2>
+    document.querySelector('nav').innerHTML = `
+        <div stye="width: 100%;" class="title">
+            <h2 style="width: calc(100vw - 32px); text-align: center;" class="animate__animated animate__slideInLeft">Gastro App</h2>
+        </div>
     `
     let inner = `
         <div class="home animate__animated animate__zoomIn">
+            <div class="searchbar">
+                <form>
+                    <input type="text" placeholder="Введите название рецепта">
+                    <button>
+                        <img src="./assets/search.svg">
+                    </button>
+                </form>
+            </div>
             <div>
                 <button onclick="menuPage()">
                     <img src="./assets/1.gif">
@@ -47,8 +57,11 @@ const manageListPage = (components = false) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
     
     document.querySelector('body').style.backgroundImage = `url('./assets/bg.jpg')`
-    document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Список</h2>
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <h2 class="animate__animated animate__slideInLeft">Список</h2>
+        </div>
     `
     let inner = '<div class="list save__toggle animate__animated animate__zoomIn"><table><thead><th><h3>Редактировать список</h3></th></thead><tbody id="components">'
     items.forEach(e => {
@@ -81,8 +94,11 @@ const manageListPage = (components = false) => {
 }
 const useListPage = () => {
     document.querySelector('body').style.backgroundImage = `url('./assets/bg.jpg')`
-    document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Покупки</h2>
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <h2 class="animate__animated animate__slideInLeft">Покупки</h2>
+        </div>
     `
     let items = []
     let username = JSON.parse(localStorage.getItem('Session')).username
@@ -124,8 +140,11 @@ const useListPage = () => {
 const statPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
-    document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Статистика</h2>
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <h2 class="animate__animated animate__slideInLeft">Статистика</h2>
+        </div>
     `
     let menuItemsQty = database.length
     let likedMenuItemsQty = 0
@@ -172,4 +191,45 @@ const statPage = () => {
     `
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+const accountPage = () => {
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <h2 class="animate__animated animate__slideInLeft">Аккаунт</h2>
+        </div>
+    `
+    let menuItemsQty = database.length
+    let likedMenuItemsQty = 0
+    if (localStorage.getItem(`${username}_liked`)) likedMenuItemsQty = JSON.parse(localStorage.getItem(`${username}_liked`)).length 
+    let likedListsQty = 0
+    if (localStorage.getItem(`${username}_shopping_list`)) likedListsQty = JSON.parse(localStorage.getItem(`${username}_shopping_list`)).length 
+    let itemsInCurrentList = 0
+    if (sessionStorage.getItem(`${username}_list`)) itemsInCurrentList = JSON.parse(sessionStorage.getItem(`${username}_list`)).length 
+    let inner = `
+        <div class="detail animate__animated animate__zoomIn">
+            <img class="user-photo">
+            <h3 style="margin: 8px 4px 0 4px;" id="username"></h3>
+        </div>
+        <div class="detail animate__animated animate__zoomIn">
+            <button id="logout">
+                <img src="./assets/logout.svg">
+            </button>
+        </div>
+    `
+    document.querySelector('.content').innerHTML = inner
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (localStorage.getItem('Session')) {
+        let username = JSON.parse(localStorage.getItem('Session')).username
+        getUserFromDb(username, (data) => {
+            document.body.querySelector('.user-photo').src = data[0].userpic
+            document.body.querySelector('#username').innerText = data[0].username
+        })
+    }
+    document.querySelector('#logout').onclick = () => {
+        localStorage.removeItem('Session')
+        window.location.reload()
+    }
 }

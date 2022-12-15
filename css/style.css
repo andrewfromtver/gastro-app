@@ -75,10 +75,10 @@ nav > div {
 nav > div > img {
     height: 40px;
     width: 40px;
-    margin: 4px;
-    border-radius: 100%;
-    object-fit: contain;
-    background-color: #333;
+    height: 32px;
+    width: 32px;
+    margin: 6px -10px 0 8px;
+    cursor: pointer;
 }
 
 nav > div > p {
@@ -87,17 +87,8 @@ nav > div > p {
 
 nav > div > button {
     border: none;
-    background-color: #ef9a9a;
     cursor: pointer;
     border-radius: 0;
-}
-
-nav > div > button:hover {
-    background-color: #ffcccb;
-}
-
-nav > div > button:active {
-    background-color: #ba6b6c;
 }
 
 nav > div > button > img {
@@ -160,7 +151,7 @@ footer > img:active {
 }
 
 #gastro-app {
-    max-width: 900px;
+    max-width: 600px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;

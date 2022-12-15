@@ -80,12 +80,6 @@ const initApp = (data = false, userReg = false) => {
     event.preventDefault()
     let photo = './assets/noavatar.png'
     if (document.querySelector('#photo')) photo = document.querySelector('#photo').src
-    if (localStorage.getItem('Session')) {
-        let username = JSON.parse(localStorage.getItem('Session')).username
-        getUserFromDb(username, (data) => {
-            document.body.querySelector('.user-photo').src = data[0].userpic
-        })
-    }
     let inner = ''
     let inner2 = ''
     let dbData = {
@@ -103,19 +97,6 @@ const initApp = (data = false, userReg = false) => {
             <nav>
                 <div class="title">
                     <h2 class="animate__animated animate__slideInLeft">Обучение</h2>
-                </div>
-                <div>
-                    <p>${data.username}</p>
-        `
-        if (idbSupport) {
-            inner += `
-                <img class="user-photo" src="${photo || './assets/noavatar.png'}" alt="userpic">
-            `
-        }
-        inner += `
-                    <button id="logout">
-                        <img src="./assets/logout.svg">
-                    </button>
                 </div>
             </nav>
             <div class="content">
@@ -138,10 +119,6 @@ const initApp = (data = false, userReg = false) => {
     }
     document.querySelector('#gastro-app').innerHTML = inner
     document.querySelector('footer').innerHTML = inner2
-    document.querySelector('#logout').onclick = () => {
-        localStorage.removeItem('Session')
-        window.location.reload()
-    }
     if (data) {
         document.querySelector('#go-shopping').onclick = () => {
             goShopping()
@@ -162,6 +139,7 @@ const goShopping = () => {
         <img src="./assets/manage_list.svg" id="manage_list" alt="manage list">
         <img src="./assets/use_list.svg" id="use_list" alt="use list">
         <img src="./assets/stat.svg" id="stat" alt="stat">
+        <img src="./assets/person.svg" id="account" alt="account">
     `
     document.querySelector('.content').innerHTML = ''
     document.querySelector('footer').innerHTML = inner
@@ -176,6 +154,9 @@ const goShopping = () => {
     }
     stat.onclick = () => {
         statPage()
+    }
+    account.onclick = () => {
+        accountPage()
     }
     homePage()
 }

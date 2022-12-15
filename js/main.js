@@ -49,8 +49,16 @@ const saveBtnListner = () => {
 // hidden app pages
 const menuPage = () => {
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
-    document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Рецепты</h2>
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <h2 class="animate__animated animate__slideInLeft">Рецепты</h2>
+        </div>
+        <div>
+            <button>
+                <img src="./assets/search.svg">
+            </button>
+        </div>
     `
     let inner = '<div class="menu">'
     database.forEach(e => {
@@ -75,8 +83,16 @@ const likedMenuPage = () => {
         items = JSON.parse(localStorage.getItem(`${username}_liked`))
     }
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
-    document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Избранное</h2>
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <h2 class="animate__animated animate__slideInLeft">Избранное</h2>
+        </div>
+        <div>
+            <button>
+                <img src="./assets/search.svg">
+            </button>
+        </div>
     `
     let inner = `
         <div class="list animate__animated animate__zoomIn">
@@ -125,8 +141,16 @@ const likedListPage = () => {
         items = JSON.parse(localStorage.getItem(`${username}_shopping_list`))
     }
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
-    document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Избранное</h2>
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <h2 class="animate__animated animate__slideInLeft">Избранное</h2>
+        </div>
+        <div>
+            <button>
+                <img src="./assets/search.svg">
+            </button>
+        </div>
     `
     let inner = `
         <div class="list animate__animated animate__zoomIn">

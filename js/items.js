@@ -125,8 +125,10 @@ const showItem = (id, backTo = 'menu') => {
         `
     }
     document.querySelector('.content').innerHTML = inner
-    document.querySelector('.title').innerHTML = `
-        <h2 class="animate__animated animate__slideInLeft">Детали</h2>
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <h2 class="animate__animated animate__slideInLeft">Детали</h2>
+        </div>
     `
     document.querySelector('body').style.backgroundImage = `url(${e.img})`
     window.scrollTo({ top: 0, behavior: 'smooth' })
