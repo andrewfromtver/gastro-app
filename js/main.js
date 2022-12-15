@@ -54,7 +54,16 @@ const saveBtnListner = () => {
 
 
 // hidden app pages
-const menuPage = () => {
+const menuPage = (query = false) => {
+    let result = []
+    if (!query) result = database
+    else {
+        database.forEach(e => {
+            if (e.title.toLowerCase().includes(query.toLowerCase())) {
+                result.push(e)
+            }
+        })
+    }
     document.querySelector('body').style
         .backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
@@ -75,7 +84,7 @@ const menuPage = () => {
         </div>
     `
     let inner = '<div class="menu">'
-    database.forEach(e => {
+    result.forEach(e => {
         inner += `
             <div 
                 onclick="showItem(this.id)" 
@@ -95,6 +104,13 @@ const menuPage = () => {
         `
     })
     inner += '</div><br>'
+    if (result.length === 0) {
+        inner += `
+            <div class="detail">
+                <h3>¯\\_(ツ)_/¯</h3>
+            </div>
+        `
+    }
     document.querySelector('.content').innerHTML = inner
     refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })

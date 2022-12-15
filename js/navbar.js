@@ -9,8 +9,13 @@ const homePage = () => {
     let inner = `
         <div class="home animate__animated animate__zoomIn">
             <div class="searchbar">
-                <form>
-                    <input type="text" placeholder="Введите название рецепта">
+                <form onsubmit="menuPage(this.query.value)">
+                    <input 
+                        name="query"
+                        required
+                        type="text" 
+                        placeholder="Введите название рецепта"
+                    >
                     <button>
                         <img src="./assets/search.svg">
                     </button>
