@@ -11,6 +11,8 @@ const delItem = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
     saveBtnListner()
 }
+
+
 const addItem = () => {
     components.innerHTML = ''
     let id = guid()
@@ -47,6 +49,8 @@ const addItem = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
     saveBtnListner()
 }
+
+
 const editItem = () => {
     let items = []
     if (components) {
@@ -57,6 +61,8 @@ const editItem = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
 }
+
+
 const showItem = (id, backTo = 'menu') => {
     let e = database[id - 1]
     let components = ''
@@ -127,13 +133,18 @@ const showItem = (id, backTo = 'menu') => {
     document.querySelector('.content').innerHTML = inner
     document.querySelector('nav').innerHTML = `
         <div class="title">
-        <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="menuPage()">
+        <img 
+            class="animate__animated animate__slideInLeft" 
+            src="./assets/back.svg" 
+            onclick="menuPage()"
+        >
             <h2 class="animate__animated animate__slideInLeft">Детали</h2>
         </div>
     `
     document.querySelector('body').style.backgroundImage = `url(${e.img})`
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
 
 // liked items processing
 const likeUnlike = (id) => {
@@ -158,6 +169,8 @@ const likeUnlike = (id) => {
     localStorage.setItem(`${username}_liked`, JSON.stringify(items))
     refreshLikeIcons()
 }
+
+
 const refreshLikeIcons = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
@@ -171,13 +184,16 @@ const refreshLikeIcons = () => {
     })
 }
 
+
 // lists processing
 const saveList = () => {
     event.preventDefault()
     let username = JSON.parse(localStorage.getItem('Session')).username
     let shoppingList = []
     if (localStorage.getItem(`${username}_shopping_list`)) {
-        shoppingList = JSON.parse(localStorage.getItem(`${username}_shopping_list`))
+        shoppingList = JSON.parse(
+            localStorage.getItem(`${username}_shopping_list`)
+        )
     }
     let items = []
     if (components) {
@@ -194,14 +210,21 @@ const saveList = () => {
         document.body.querySelector('.save').remove()
     }
     shoppingList.push(list)
-    localStorage.setItem(`${username}_shopping_list`, JSON.stringify(shoppingList))
+    localStorage.setItem(
+        `${username}_shopping_list`, 
+        JSON.stringify(shoppingList)
+    )
 }
+
+
 const useList = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     let shoppingList = []
     if (localStorage.getItem(`${username}_shopping_list`)) {
-        shoppingList = JSON.parse(localStorage.getItem(`${username}_shopping_list`))
+        shoppingList = JSON.parse(
+            localStorage.getItem(`${username}_shopping_list`)
+        )
     }
     shoppingList.forEach(e => {
         if (e.id === id) {
@@ -211,17 +234,24 @@ const useList = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
     useListPage()
 }
+
+
 const delList = (id) => {
     document.body.querySelector(`.${id}`).remove()
 
     let username = JSON.parse(localStorage.getItem('Session')).username
     let shoppingList = []
     if (localStorage.getItem(`${username}_shopping_list`)) {
-        shoppingList = JSON.parse(localStorage.getItem(`${username}_shopping_list`))
+        shoppingList = JSON.parse(
+            localStorage.getItem(`${username}_shopping_list`)
+        )
     }
     let newArray = []
     shoppingList.forEach(e => {
         if (e.id !== id) newArray.push(e) 
     })
-    localStorage.setItem(`${username}_shopping_list`, JSON.stringify(newArray))
+    localStorage.setItem(
+        `${username}_shopping_list`, 
+        JSON.stringify(newArray)
+    )
 }

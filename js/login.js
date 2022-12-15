@@ -3,11 +3,9 @@ const previewFile = () => {
     let preview = document.querySelector('#photo')
     let file = document.querySelector('input[type=file]').files[0]
     let reader  = new FileReader()
-  
     reader.onloadend = function () {
         preview.src = reader.result
     }
-  
     if (file) {
         reader.readAsDataURL(file)
     } else {
@@ -15,6 +13,8 @@ const previewFile = () => {
     }
     document.querySelector('input[type=file]').value = ''
 }
+
+
 const checkImage = (username) => {
     if (idbSupport)  getUserFromDb(username, (data) => { 
         if (data[0]) {
@@ -26,6 +26,7 @@ const checkImage = (username) => {
         document.querySelector('input[type=file]').value = ''
     })
 }
+
 
 // render wellcome page
 const addUser = () => {
@@ -50,7 +51,10 @@ const addUser = () => {
     
     if (idbSupport) {
         inner += `
-            <button onclick="document.body.querySelector('#userpic').click()" type="button">
+            <button 
+                onclick="document.body.querySelector('#userpic').click()" 
+                type="button"
+            >
                 <img src="./assets/add_a_photo.svg">
                 <input
                     hidden
@@ -75,11 +79,13 @@ const addUser = () => {
     document.querySelector('#gastro-app').innerHTML = inner
 }
 
+
 // render tutorial page
 const initApp = (data = false, userReg = false) => {
     event.preventDefault()
     let photo = './assets/noavatar.png'
-    if (document.querySelector('#photo')) photo = document.querySelector('#photo').src
+    if (document.querySelector('#photo')) photo = document
+        .querySelector('#photo').src
     let inner = ''
     let inner2 = ''
     let dbData = {
@@ -96,11 +102,18 @@ const initApp = (data = false, userReg = false) => {
         inner += `
             <nav>
                 <div class="title">
-                    <h2 class="animate__animated animate__slideInLeft">Обучение</h2>
+                    <h2 class="animate__animated animate__slideInLeft">
+                        Обучение
+                    </h2>
                 </div>
             </nav>
             <div class="content">
-                <video controls autoplay id="tutorial" class="animate__animated animate__zoomIn">
+                <video 
+                    controls 
+                    autoplay 
+                    id="tutorial" 
+                    class="animate__animated animate__zoomIn"
+                >
                     <source src="./assets/tutorial.mp4" type="video/mp4">
                 </video>
             </div>
@@ -130,10 +143,14 @@ const initApp = (data = false, userReg = false) => {
     }
 }
 
+
 // render navbar icons and main functions
 const goShopping = () => {
     let globalJson = JSON.parse(localStorage.getItem('Session'))
-    localStorage.setItem(`${globalJson.username}_tutorial`, 'Tutorial compleated')
+    localStorage.setItem(
+        `${globalJson.username}_tutorial`, 
+        'Tutorial compleated'
+    )
     let inner = `
         <img src="./assets/home.svg" id="home" alt="home">
         <img src="./assets/manage_list.svg" id="manage_list" alt="manage list">

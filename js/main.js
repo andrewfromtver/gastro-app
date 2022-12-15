@@ -2,17 +2,23 @@
 let guid = () => {
     let length = 32
     var result = ''
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     var charactersLength = characters.length
     for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength))
+        result += characters
+            .charAt(Math.floor(Math.random() * charactersLength))
     }
     return result
 }
+
+
 const checkUncheck = (id) => {
-    if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
-    else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
+    let e = document.body.querySelector(`.${id}`).style.textDecoration
+    if (e === 'line-through') e = ''
+    else e = 'line-through'
 }
+
+
 const saveBtnListner = () => {
     document.querySelector('.save__toggle').classList = 'save__toggle list'
     let trigger = components.querySelectorAll('input').length
@@ -46,13 +52,21 @@ const saveBtnListner = () => {
     }
 }
 
+
 // hidden app pages
 const menuPage = () => {
-    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
+    document.querySelector('body').style
+        .backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
-            <h2 class="animate__animated animate__slideInLeft">Рецепты</h2>
+            <img 
+                class="animate__animated animate__slideInLeft" 
+                src="./assets/back.svg" 
+                onclick="homePage()"
+            >
+            <h2 class="animate__animated animate__slideInLeft">
+                Рецепты
+            </h2>
         </div>
         <div>
             <button>
@@ -63,9 +77,18 @@ const menuPage = () => {
     let inner = '<div class="menu">'
     database.forEach(e => {
         inner += `
-            <div onclick="showItem(this.id)" class="card menu-item animate__animated animate__zoomIn" id="${e.id}">
+            <div 
+                onclick="showItem(this.id)" 
+                class="card menu-item animate__animated animate__zoomIn" 
+                id="${e.id}"
+            >
                 <img class="img"src="${e.img}">
-                <img id="${e.id}" class="like" onclick="likeUnlike(this.id)" src="./assets/like.svg">
+                <img 
+                    id="${e.id}" 
+                    class="like" 
+                    onclick="likeUnlike(this.id)" 
+                    src="./assets/like.svg"
+                >
                 <h3>${e.title}</h3>
                 <p>${e.type}</p>
             </div>
@@ -76,17 +99,26 @@ const menuPage = () => {
     refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
 const likedMenuPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     if (localStorage.getItem(`${username}_liked`)) {
         items = JSON.parse(localStorage.getItem(`${username}_liked`))
     }
-    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
+    document.querySelector('body').style
+        .backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
-            <h2 class="animate__animated animate__slideInLeft">Избранное</h2>
+            <img 
+                class="animate__animated animate__slideInLeft" 
+                src="./assets/back.svg" 
+                onclick="homePage()"
+            >
+            <h2 class="animate__animated animate__slideInLeft">
+                Избранное
+            </h2>
         </div>
         <div>
             <button>
@@ -106,11 +138,14 @@ const likedMenuPage = () => {
     if (items.length > 0) {
         items.forEach(e => {
             inner += `
-                        <tr>
-                            <td id="${database[e -1].id}" onclick="showItem(this.id, 'liked')">
-                                ${database[e - 1].title}
-                            </td>
-                        </tr>
+                <tr>
+                    <td 
+                        id="${database[e -1].id}" 
+                        onclick="showItem(this.id, 'liked')"
+                    >
+                        ${database[e - 1].title}
+                    </td>
+                </tr>
             `
         })
     }
@@ -134,17 +169,28 @@ const likedMenuPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
 const likedListPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     if (localStorage.getItem(`${username}_shopping_list`)) {
-        items = JSON.parse(localStorage.getItem(`${username}_shopping_list`))
+        items = JSON.parse(
+            localStorage.getItem(`${username}_shopping_list`)
+        )
     }
-    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
+    document.querySelector('body').style
+        .backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
-            <h2 class="animate__animated animate__slideInLeft">Избранное</h2>
+            <img 
+                class="animate__animated animate__slideInLeft" 
+                src="./assets/back.svg" 
+                onclick="homePage()"
+            >
+            <h2 class="animate__animated animate__slideInLeft">
+                Избранное
+            </h2>
         </div>
         <div>
             <button>
@@ -164,14 +210,18 @@ const likedListPage = () => {
     if (items.length > 0) {
         items.forEach(e => {
             inner += `
-                        <tr class="${e.id}">
-                            <td id="${e.id}" onclick="useList(this.id)">
-                                ${e.title}
-                            </td>
-                            <td id="${e.id}" class="dell" onclick="delList(this.id)">
-                                <img src="./assets/delete.svg">
-                            </td>
-                        </tr>
+                <tr class="${e.id}">
+                    <td id="${e.id}" onclick="useList(this.id)">
+                        ${e.title}
+                    </td>
+                    <td 
+                        id="${e.id}" 
+                        class="dell" 
+                        onclick="delList(this.id)"
+                    >
+                        <img src="./assets/delete.svg">
+                    </td>
+                </tr>
             `
         })
     }
@@ -196,25 +246,12 @@ const likedListPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-// start script execution
-let idbSupport = false
-window.onload = () => {
-    initDb()
-    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
-    if (localStorage.getItem('Session')) {
-        let globalJson = JSON.parse(localStorage.getItem('Session'))
-        initApp(globalJson)
-        if (localStorage.getItem(String(globalJson.username))) {
-            goShopping()
-        }
-    }
-    else addUser()
-}
 
 // feedback
 const sendFeedback = (username, description) => {
     event.preventDefault()
-    fetch('https://api.telegram.org/bot1070038475:AAHkzMK4T5bmMeFhR22aidxpFkwuzMlObgk/' +
+    fetch('https://api.telegram.org/bot' +
+        '1070038475:AAHkzMK4T5bmMeFhR22aidxpFkwuzMlObgk/' +
         'sendMessage?chat_id=-1001490927690&text=' +
         `Имя => ${username} ` +
         `Рецепт => ${description}`)
@@ -231,4 +268,21 @@ const sendFeedback = (username, description) => {
                 `
             }
         })
+}
+
+
+// start script execution
+let idbSupport = false
+window.onload = () => {
+    initDb()
+    document.querySelector('body').style
+        .backgroundImage = 'url(./assets/food.jpg)'
+    if (localStorage.getItem('Session')) {
+        let globalJson = JSON.parse(localStorage.getItem('Session'))
+        initApp(globalJson)
+        if (localStorage.getItem(String(globalJson.username))) {
+            goShopping()
+        }
+    }
+    else addUser()
 }
