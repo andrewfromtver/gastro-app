@@ -15,7 +15,7 @@ const menuPage = () => {
             </div>
         `
     })
-    inner += '</div>'
+    inner += '</div><br>'
     document.querySelector('.content').innerHTML = inner
     refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })
