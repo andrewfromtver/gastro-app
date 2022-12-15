@@ -19,10 +19,26 @@ body {
     background-color: #eee;
 }
 
+label {
+    font-size: 10px;
+}
+
+h2 {
+    font-size: 16px;
+}
+
+h3 {
+    font-size: 14px;
+}
+
+p, li, input, td {
+    font-size: 12px;
+}
+
 button {
     box-shadow: 0 0 16px #ddd;
-    font-weight: 900;
     padding: 8px 8px 4px 8px;
+    font-weight: 900;
 }
 
 button > img {
@@ -67,14 +83,10 @@ nav > div > img {
 
 nav > div > p {
     margin: auto 4px;
-    font-weight: 500;
-    font-size: 16px;
 }
 
 nav > div > button {
     border: none;
-    font-weight: 500;
-    font-size: 14px;
     background-color: #ef9a9a;
     cursor: pointer;
     border-radius: 0;
@@ -96,8 +108,6 @@ nav > div > button > img {
 
 footer > button {
     border: none;
-    font-weight: 500;
-    font-size: 14px;
     background-color: #a5d6a7;
     cursor: pointer;
     height: 32px;

@@ -96,7 +96,6 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: 12px;
 }
 
 .card > p {
@@ -106,7 +105,6 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: 10px;
     width: calc(100% - 72px);
 }
 
@@ -117,30 +115,15 @@
     margin: 8px 0;
 }
 
-.detail > h2 {
-    font-size: 16px;
-}
-
-.detail > h3 {
-    font-size: 14px;
-}
-
-.detail > p, .detail > ul, .detail > div > p {
-    font-size: 12px;
-}
-
 .detail > ul > li {
     padding: 8px;
     margin: 0;
     text-align: left;
     list-style: inside;
-    font-weight: 500;
 }
 
 .detail > div > button, .list > div > button, .save > div > form > button {
     border: none;
-    font-weight: 500;
-    font-size: 14px;
     background-color: #a5d6a7;
     cursor: pointer;
     margin: 8px auto;
@@ -182,7 +165,6 @@
 
 .list > table > thead > tr > th:nth-child(1) > h3 {
     margin: 0 auto 8px auto;
-    font-size: 14px;
 }
 
 .save > div > form {
@@ -252,11 +234,6 @@
     width: 50%;
 }
 
-.counters > div > p {
-    font-weight: 200;
-    font-size: 12px;
-}
-
 .feedback {
     background-color: #fff;
     margin: 8px;
@@ -268,8 +245,6 @@
 }
 
 .feedback > label {
-    font-size: 12px;
-    font-weight: 700;
     text-align: start;
     margin: 8px;
 }
@@ -286,8 +261,6 @@
 
 .feedback > button {
     border: none;
-    font-weight: 500;
-    font-size: 14px;
     background-color: #a5d6a7;
     cursor: pointer;
     margin: 24px auto 8px auto;
