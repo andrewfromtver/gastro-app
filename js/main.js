@@ -77,10 +77,13 @@ const menuPage = (query = false) => {
                 Рецепты
             </h2>
         </div>
-        <div>
+        <div class="searchbar-nav">
+            <form onsubmit="menuPage(this.query.value)">
+            <input name="query" type="text" required>
             <button>
                 <img src="./assets/search.svg">
             </button>
+            </form>
         </div>
     `
     let inner = '<div class="menu">'
