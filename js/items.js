@@ -127,6 +127,7 @@ const showItem = (id, backTo = 'menu') => {
     document.querySelector('.content').innerHTML = inner
     document.querySelector('nav').innerHTML = `
         <div class="title">
+        <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="menuPage()">
             <h2 class="animate__animated animate__slideInLeft">Детали</h2>
         </div>
     `
