@@ -43,8 +43,8 @@ const addUser = () => {
                     oninput="checkImage(this.value)" 
                     id="username" 
                     name="username" 
-                    maxlength="8" 
-                    placeholder="Имя или псевдоним (не более 8 символов)"
+                    maxlength="128" 
+                    placeholder="Имя или псевдоним (не более 128 символов)"
                     required
                 >
     `

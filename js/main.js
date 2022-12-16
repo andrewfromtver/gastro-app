@@ -33,6 +33,7 @@ const saveBtnListner = () => {
                                 type="text" 
                                 id="listName" 
                                 required
+                                maxlength="256"
                             >
                         </div>
                         <button>
@@ -87,7 +88,7 @@ const menuPage = (query = false) => {
         </div>
         <div class="searchbar-nav">
             <form onsubmit="menuPage(this.query.value)">
-            <input name="query" type="text" required>
+            <input maxlength="256" name="query" type="text" required>
             <button>
                 <img src="./assets/search.svg">
             </button>
@@ -162,7 +163,7 @@ const likedMenuPage = (query = false) => {
         </div>
         <div class="searchbar-nav">
             <form onsubmit="likedMenuPage(this.query.value)">
-            <input name="query" type="text" required>
+            <input maxlength="256" name="query" type="text" required>
             <button>
                 <img src="./assets/search.svg">
             </button>
@@ -250,7 +251,7 @@ const likedListPage = (query = false) => {
         </div>
         <div class="searchbar-nav">
             <form onsubmit="likedListPage(this.query.value)">
-            <input name="query" type="text" required>
+            <input maxlength="256" name="query" type="text" required>
             <button>
                 <img src="./assets/search.svg">
             </button>

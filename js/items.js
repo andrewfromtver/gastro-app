@@ -28,7 +28,12 @@ const addItem = () => {
         inner += `
             <tr class="${id}">
                 <td>
-                    <input oninput="editItem()" type="text" value="${e}">
+                    <input 
+                        oninput="editItem()" 
+                        type="text" 
+                        value="${e}"
+                        maxlength="256"
+                    >
                 </td>
                 <td id="${id}" class="dell" onclick="delItem(this.id)">
                     <img src="./assets/delete.svg">
@@ -39,7 +44,11 @@ const addItem = () => {
     inner += `
         <tr class="${id}">
             <td>
-                <input oninput="editItem()" type="text">
+                <input 
+                    oninput="editItem()" 
+                    type="text"
+                    maxlength="256"
+                >
             </td>
             <td id="${id}" class="dell" onclick="delItem(this.id)">
                 <img src="./assets/delete.svg">

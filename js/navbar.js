@@ -15,6 +15,7 @@ const homePage = () => {
                         required
                         type="text" 
                         placeholder="Введите название рецепта"
+                        maxlength="256"
                     >
                     <button>
                         <img src="./assets/search.svg">
@@ -74,7 +75,7 @@ const manageListPage = (components = false) => {
         inner += `
             <tr class="${id}">
                 <td>
-                    <input oninput="editItem()" type="text" value="${e}">
+                    <input maxlength="256" oninput="editItem()" type="text" value="${e}">
                 </td>
                 <td id="${id}" class="dell" onclick="delItem(this.id)">
                     <img src="./assets/delete.svg">
@@ -190,9 +191,9 @@ const statPage = () => {
         <form onsubmit="sendFeedback(this.name.value, this.description.value)" class="feedback animate__animated animate__zoomIn" id="feedback">
             <h3>Отправьте нам Ваш рецепт</h3>
             <label>Вашe имя или псевдоним</label>
-            <input name="name" type="text" required>
+            <input maxlength="256" name="name" type="text" required>
             <label>Ваш рецепт</label>
-            <textarea name="description" rows="6" required></textarea>
+            <textarea name="description" rows="6" maxlength="1024" required></textarea>
             <button>
                 <img src="./assets/send.svg">
             </button>
