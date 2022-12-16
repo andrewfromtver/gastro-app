@@ -13,9 +13,8 @@ let guid = () => {
 
 
 const checkUncheck = (id) => {
-    let e = document.body.querySelector(`.${id}`).style.textDecoration
-    if (e === 'line-through') e = ''
-    else e = 'line-through'
+    if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
+    else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
 }
 
 
