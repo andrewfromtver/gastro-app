@@ -172,13 +172,17 @@ const likedMenuPage = (query = false) => {
                 <tbody id="components">`
     if (result.length > 0) {
         result.forEach(e => {
+            let obj = {}
+            database.forEach(el => {
+                if (el.id == e) obj = el
+            })
             inner += `
                 <tr>
                     <td 
-                        id="${database[e -1].id}" 
+                        id="${obj.id}" 
                         onclick="showItem(this.id, 'liked')"
                     >
-                        ${database[e - 1].title}
+                        ${obj.title}
                     </td>
                 </tr>
             `

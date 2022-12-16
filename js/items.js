@@ -64,7 +64,10 @@ const editItem = () => {
 
 
 const showItem = (id, backTo = 'menu') => {
-    let e = database[id - 1]
+    let e = {}
+    database.forEach(el => {
+        if (el.id == id) e = el
+    })
     let components = ''
     e.components.forEach(e => {
         components += `
