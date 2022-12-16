@@ -191,9 +191,15 @@ const statPage = () => {
         <form onsubmit="sendFeedback(this.name.value, this.description.value)" class="feedback animate__animated animate__zoomIn" id="feedback">
             <h3>Отправьте нам Ваш рецепт</h3>
             <label>Вашe имя или псевдоним</label>
-            <input maxlength="256" name="name" type="text" required>
+            <input placeholder="Мы укажем это значение в графе 'Автор рецепта'" maxlength="256" name="name" type="text" required>
             <label>Ваш рецепт</label>
-            <textarea name="description" rows="6" maxlength="1024" required></textarea>
+            <textarea 
+                placeholder="Укажите ингридиенты и способ приготовления (не более 1024 символов)"
+                name="description" 
+                rows="6" 
+                maxlength="1024" 
+                required
+            ></textarea>
             <button>
                 <img src="./assets/send.svg">
             </button>
