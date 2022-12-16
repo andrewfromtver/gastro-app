@@ -103,7 +103,6 @@ footer > button {
     cursor: pointer;
     height: 32px;
     margin: auto;
-    width: 200px;
 }
 
 footer > button:hover {
