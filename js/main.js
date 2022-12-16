@@ -120,11 +120,24 @@ const menuPage = (query = false) => {
 }
 
 
-const likedMenuPage = () => {
+const likedMenuPage = (query = false) => {
+    event.preventDefault()
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     if (localStorage.getItem(`${username}_liked`)) {
         items = JSON.parse(localStorage.getItem(`${username}_liked`))
+    }
+    let result = []
+    if (!query) result = items
+    else {
+        items.forEach(el => {
+            database.forEach(e => {
+                if (e.id == el && e.title.toLowerCase().includes(query.toLowerCase())
+                ) {
+                    result.push(e.id)
+                }
+            })
+        })
     }
     document.querySelector('body').style
         .backgroundImage = 'url(./assets/food.jpg)'
@@ -139,10 +152,13 @@ const likedMenuPage = () => {
                 Избранное
             </h2>
         </div>
-        <div>
+        <div class="searchbar-nav">
+            <form onsubmit="likedMenuPage(this.query.value)">
+            <input name="query" type="text" required>
             <button>
                 <img src="./assets/search.svg">
             </button>
+            </form>
         </div>
     `
     let inner = `
@@ -154,8 +170,8 @@ const likedMenuPage = () => {
                     </th>
                 </thead>
                 <tbody id="components">`
-    if (items.length > 0) {
-        items.forEach(e => {
+    if (result.length > 0) {
+        result.forEach(e => {
             inner += `
                 <tr>
                     <td 
@@ -190,13 +206,22 @@ const likedMenuPage = () => {
 }
 
 
-const likedListPage = () => {
+const likedListPage = (query = false) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     if (localStorage.getItem(`${username}_shopping_list`)) {
         items = JSON.parse(
             localStorage.getItem(`${username}_shopping_list`)
         )
+    }
+    let result = []
+    if (!query) result = items
+    else {
+        items.forEach(e => {
+            if (e.title.toLowerCase().includes(query.toLowerCase())) {
+                result.push(e)
+            }
+        })
     }
     document.querySelector('body').style
         .backgroundImage = 'url(./assets/food.jpg)'
@@ -211,10 +236,13 @@ const likedListPage = () => {
                 Избранное
             </h2>
         </div>
-        <div>
+        <div class="searchbar-nav">
+            <form onsubmit="likedListPage(this.query.value)">
+            <input name="query" type="text" required>
             <button>
                 <img src="./assets/search.svg">
             </button>
+            </form>
         </div>
     `
     let inner = `
@@ -226,8 +254,8 @@ const likedListPage = () => {
                     </th>
                 </thead>
                 <tbody id="components">`
-    if (items.length > 0) {
-        items.forEach(e => {
+    if (result.length > 0) {
+        result.forEach(e => {
             inner += `
                 <tr class="${e.id}">
                     <td id="${e.id}" onclick="useList(this.id)">
