@@ -310,8 +310,8 @@ const likedListPage = (query = false) => {
 const sendFeedback = (username, description) => {
     event.preventDefault()
     fetch('https://api.telegram.org/bot' +
-        '1070038475:AAHkzMK4T5bmMeFhR22aidxpFkwuzMlObgk/' +
-        'sendMessage?chat_id=-1001490927690&text=' +
+        '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
+        '/sendMessage?chat_id=-1001838020997&text=' +
         `Имя => ${username} ` +
         `Рецепт => ${description}`)
         .then(e => {
