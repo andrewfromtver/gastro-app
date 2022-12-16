@@ -46,6 +46,8 @@ const homePage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
 const manageListPage = (components = false) => {
     let items = []
     let username = JSON.parse(localStorage.getItem('Session')).username
@@ -57,8 +59,8 @@ const manageListPage = (components = false) => {
             items.push(e.innerText)
         })
     }
+    let uniqueItems = [...new Set(items)]
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
-    
     document.querySelector('body').style.backgroundImage = `url('./assets/bg.jpg')`
     document.querySelector('nav').innerHTML = `
         <div class="title">
@@ -67,7 +69,7 @@ const manageListPage = (components = false) => {
         </div>
     `
     let inner = '<div class="list save__toggle animate__animated animate__zoomIn"><table><thead><th><h3>Редактировать список</h3></th></thead><tbody id="components">'
-    items.forEach(e => {
+    uniqueItems.forEach(e => {
         let id = guid()
         inner += `
             <tr class="${id}">
@@ -92,9 +94,10 @@ const manageListPage = (components = false) => {
     `
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    
     setTimeout( () => {saveBtnListner()}, 750)
 }
+
+
 const useListPage = () => {
     document.querySelector('body').style.backgroundImage = `url('./assets/bg.jpg')`
     document.querySelector('nav').innerHTML = `
@@ -108,6 +111,7 @@ const useListPage = () => {
     if (sessionStorage.getItem(`${username}_list`)) {
         items = JSON.parse(sessionStorage.getItem(`${username}_list`))
     }
+    let uniqueItems = [...new Set(items)]
     let inner = `
         <div class="list animate__animated animate__zoomIn">
             <table>
@@ -117,7 +121,7 @@ const useListPage = () => {
                     </th>
                 </thead>
                 <tbody id="components">`
-    items.forEach(e => {
+    uniqueItems.forEach(e => {
         let id = guid()
         inner += `
                     <tr class="${id}">
@@ -140,6 +144,8 @@ const useListPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
 const statPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
@@ -195,6 +201,8 @@ const statPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
 const accountPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'

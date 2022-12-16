@@ -8,7 +8,8 @@ const delItem = (id) => {
         })
     }
     let username = JSON.parse(localStorage.getItem('Session')).username
-    sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
+    let uniqueItems = [...new Set(items)]
+    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
     saveBtnListner()
 }
 
@@ -59,7 +60,8 @@ const editItem = () => {
         })
     }
     let username = JSON.parse(localStorage.getItem('Session')).username
-    sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
+    let uniqueItems = [...new Set(items)]
+    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
 }
 
 
