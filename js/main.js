@@ -312,9 +312,9 @@ const sendFeedback = (username, description) => {
     event.preventDefault()
     fetch('https://api.telegram.org/bot' +
         '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
-        '/sendMessage?chat_id=-1001838020997&text=' +
-        `Имя => ${encodeURIComponent(username)} ` +
-        `Рецепт => ${encodeURIComponent(description)}`)
+        '/sendMessage?parse_mod=html&chat_id=-1001838020997&text=' +
+        `${encodeURIComponent('Автор рецепта: ' + username + ' \n')}` +
+        `${encodeURIComponent('Рецепт: ' + description)}`)
         .then(e => {
             if (e.status === 200) {
                 document.body.querySelector('.feedback').innerHTML = `
