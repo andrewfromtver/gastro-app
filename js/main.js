@@ -43,10 +43,19 @@ const saveBtnListner = () => {
                 </div>
             `
         }
+        if (!document.body.querySelector('.clear__btn')) {
+            let clearBtn = `
+                <img class="clear__btn" onclick="clearAllItems()" src="./assets/clear.svg">
+            `
+            document.body.querySelector('.clear').innerHTML += clearBtn
+        }
     }
     else {
         if (document.body.querySelector('.save')) {
             document.body.querySelector('.save').remove()
+        }
+        if (document.body.querySelector('.clear__btn')) {
+            document.body.querySelector('.clear__btn').remove()
         }
     }
 }

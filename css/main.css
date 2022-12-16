@@ -17,6 +17,19 @@
     justify-content: space-between;
 }
 
+.clear > img {
+    cursor: pointer;
+    height: 24px;
+    width: 24px;
+    margin-top: -4px;
+    margin-right: -4px;
+}
+
+.save__toggle > table > thead > tr > th {
+    display: flex;
+    flex-direction: row;
+}
+
 .searchbar-nav > form > input {
     border-radius: 0;
     border: none;

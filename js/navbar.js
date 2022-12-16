@@ -68,7 +68,7 @@ const manageListPage = (components = false) => {
             <h2 class="animate__animated animate__slideInLeft">Список</h2>
         </div>
     `
-    let inner = '<div class="list save__toggle animate__animated animate__zoomIn"><table><thead><th><h3>Редактировать список</h3></th></thead><tbody id="components">'
+    let inner = `<div class="list save__toggle animate__animated animate__zoomIn"><table><thead><th class="clear"><h3>Редактировать список</h3></th></thead><tbody id="components">`
     uniqueItems.forEach(e => {
         let id = guid()
         inner += `

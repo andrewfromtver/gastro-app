@@ -153,6 +153,12 @@ const showItem = (id, backTo = 'menu') => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+const clearAllItems = () => {
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let uniqueItems = []
+    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
+    manageListPage()
+}
 
 // liked items processing
 const likeUnlike = (id) => {
