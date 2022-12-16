@@ -49,15 +49,13 @@ const homePage = () => {
 const manageListPage = (components = false) => {
     let items = []
     let username = JSON.parse(localStorage.getItem('Session')).username
+    if (sessionStorage.getItem(`${username}_list`)) {
+        items = JSON.parse(sessionStorage.getItem(`${username}_list`))
+    }
     if (components) {
         components.querySelectorAll('li').forEach (e => {
             items.push(e.innerText)
         })
-    }
-    else {
-        if (sessionStorage.getItem(`${username}_list`)) {
-            items = JSON.parse(sessionStorage.getItem(`${username}_list`))
-        }
     }
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
     
