@@ -63,7 +63,7 @@ const saveBtnListner = () => {
 
 
 // hidden app pages
-const menuPage = (query = false) => {
+const menuPage = (query = false, tag = false) => {
     let result = []
     if (!query) result = database
     else {
@@ -75,15 +75,17 @@ const menuPage = (query = false) => {
     }
     document.querySelector('body').style
         .backgroundImage = 'url(./assets/food.jpg)'
+    let exec = 'homePage()'
+    if (tag) exec = 'menuPage()'
     document.querySelector('nav').innerHTML = `
         <div class="title">
             <img 
                 class="animate__animated animate__slideInLeft" 
                 src="./assets/back.svg" 
-                onclick="homePage()"
+                onclick="${exec}"
             >
             <h2 class="animate__animated animate__slideInLeft">
-                Рецепты
+                ${tag || 'Рецепты'}
             </h2>
         </div>
         <div class="searchbar-nav">
@@ -98,6 +100,13 @@ const menuPage = (query = false) => {
     let typesInner = ''
     let types = []
     let inner = '<div class="menu"><div class="types animate__animated animate__slideInLeft"></div>'
+    let tagResult = []
+    if (tag) {
+        result.forEach(e => {
+            if (e.type === tag) tagResult.push(e)
+        })
+        result = tagResult
+    }
     result.forEach(e => {
         inner += `
             <div 
@@ -128,11 +137,11 @@ const menuPage = (query = false) => {
     }
     [... new Set(types)].forEach(e => {
         typesInner += `
-            <div>${e}</div>
+            <div onclick="menuPage(false, this.innerText)">${e}</div>
         `
     })
     document.querySelector('.content').innerHTML = inner
-    if (!query) document.querySelector('.types').innerHTML = typesInner
+    if (!query && !tag) document.querySelector('.types').innerHTML = typesInner
     if (query) document.querySelector('input').value = query
     refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })
