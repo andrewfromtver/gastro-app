@@ -88,14 +88,16 @@ const menuPage = (query = false) => {
         </div>
         <div class="searchbar-nav">
             <form onsubmit="menuPage(this.query.value)">
-            <input maxlength="256" name="query" type="text" required>
+            <input maxlength="256" name="query" type="text">
             <button>
                 <img src="./assets/search.svg">
             </button>
             </form>
         </div>
     `
-    let inner = '<div class="menu">'
+    let typesInner = ''
+    let types = []
+    let inner = '<div class="menu"><div class="types animate__animated animate__slideInLeft"></div>'
     result.forEach(e => {
         inner += `
             <div 
@@ -114,6 +116,7 @@ const menuPage = (query = false) => {
                 <p>${e.type}</p>
             </div>
         `
+        types.push(e.type)
     })
     inner += '</div><br>'
     if (result.length === 0) {
@@ -123,7 +126,14 @@ const menuPage = (query = false) => {
             </div>
         `
     }
+    [... new Set(types)].forEach(e => {
+        typesInner += `
+            <div>${e}</div>
+        `
+    })
     document.querySelector('.content').innerHTML = inner
+    if (!query) document.querySelector('.types').innerHTML = typesInner
+    if (query) document.querySelector('input').value = query
     refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }

@@ -37,7 +37,6 @@
     margin: 10px 0 8px 0;
     width: 100%;
     outline: none;
-    padding: 0px;
     height: 24px;
 }
 
@@ -89,6 +88,32 @@
 
 .menu-item {
     width: calc(50% - 8px);
+}
+
+.types {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.types > div {
+    background-color: #75a478;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 16px;
+    margin: 8px 4px 4px 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.types {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.types::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 .home {
