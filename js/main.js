@@ -114,7 +114,7 @@ const menuPage = (query = false, tag = false) => {
                 class="card menu-item animate__animated animate__zoomIn" 
                 id="${e.id}"
             >
-                <img class="img"src="${e.img}">
+                <img class="img"src="${e.img || './assets/no-image.png'}">
                 <img 
                     id="${e.id}" 
                     class="like" 

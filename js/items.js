@@ -158,7 +158,7 @@ const showItem = (id, backTo = 'menu') => {
             <h2 class="animate__animated animate__slideInLeft">Детали</h2>
         </div>
     `
-    document.querySelector('body').style.backgroundImage = `url(${e.img})`
+    document.querySelector('body').style.backgroundImage = `url(${e.img || './assets/no-image.png'})`
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 

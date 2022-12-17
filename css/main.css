@@ -177,6 +177,7 @@
     width: calc(100% - 32px);
     padding: 16px;
     border-radius: 18px;
+    aspect-ratio: 16/9;
 }
 
 .card > .like {
