@@ -62,7 +62,7 @@ const manageListPage = (components = false) => {
     }
     let uniqueItems = [...new Set(items)]
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
-    document.querySelector('body').style.backgroundImage = `url('./assets/bg.jpg')`
+    document.querySelector('body').style.backgroundImage = `url('./assets/food.jpg')`
     document.querySelector('nav').innerHTML = `
         <div class="title">
             <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
@@ -100,7 +100,7 @@ const manageListPage = (components = false) => {
 
 
 const useListPage = () => {
-    document.querySelector('body').style.backgroundImage = `url('./assets/bg.jpg')`
+    document.querySelector('body').style.backgroundImage = `url('./assets/food.jpg')`
     document.querySelector('nav').innerHTML = `
         <div class="title">
             <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">

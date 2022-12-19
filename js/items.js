@@ -100,6 +100,7 @@ const showItem = (id, backTo = 'menu') => {
     let inner = `
         <div class="detail animate__animated animate__zoomIn" id="${e.id}">
             <h2>${e.title}</h2>
+            <img class="user-photo" src="${e.img || './assets/no-image.png'}">
             <p>${e.description}</p>
             <h3>Ингридиенты</h3>
             <ul id="components">
@@ -158,7 +159,6 @@ const showItem = (id, backTo = 'menu') => {
             <h2 class="animate__animated animate__slideInLeft">Детали</h2>
         </div>
     `
-    document.querySelector('body').style.backgroundImage = `url(${e.img || './assets/no-image.png'})`
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
