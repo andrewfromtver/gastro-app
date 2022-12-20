@@ -156,6 +156,11 @@
             return result
         }
 
+        let createElementFromHTML = (htmlString) => {
+            var div = document.createElement('div')
+            div.innerHTML = htmlString.trim()
+            return div.firstChild
+        }
         const addItem = (type) => {
             let itemsInner = '<option selected></option>'
             uniqueItems.forEach(e => {
@@ -164,14 +169,14 @@
             let inner = ''
             if (type === 'item') {
                 inner = `
-                    <input required style="margin-top: 8px;" name="item" type="text" list="items-select" />
+                    <input oninput="removeElement(this)" required style="margin-top: 8px;" name="item" type="text" list="items-select" />
                     <datalist id="items-select">${itemsInner}</datalist>
                 `
-                document.body.querySelector('.items').innerHTML += inner
+                document.body.querySelector('.items').appendChild(createElementFromHTML(inner))
             }
             if (type === 'instruction') {
-                inner = '<input style="margin-top: 8px;" required name="instruction" type="text">'
-                document.body.querySelector('.instructions').innerHTML += inner
+                inner = '<input oninput="removeElement(this)" style="margin-top: 8px;" required name="instruction" type="text">'
+                document.body.querySelector('.instructions').appendChild(createElementFromHTML(inner))
             }
         }
 
@@ -220,6 +225,17 @@
             send(result)
         }
     
+        const removeElement = (element) => {
+            if (!element.value) {
+                element.onkeydown = () => {
+                    var key = event.keyCode || event.charCode
+                    if( key == 8 || key == 46 ) {
+                        element.remove()
+                    }
+                }
+            }
+        }
+
         window.onload = () => {
             let itemsInner = '<option selected></option>'
             uniqueItems.forEach(e => {
@@ -234,7 +250,6 @@
             document.querySelector('#items-select').innerHTML = itemsInner
             document.querySelector('#types-select').innerHTML = typesInner
         }
-    
     </script>
 </body>
 </html>
