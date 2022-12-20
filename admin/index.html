@@ -101,7 +101,8 @@
             <label>Название блюда</label>
             <input required name="title" type="text">
             <label>Тэг</label>
-            <select required name="type" id="types-select"></select>
+            <input required name="type" type="text" list="types-select" />
+            <datalist id="types-select"></datalist>
             <label>Описание блюда</label>
             <textarea required name="description"></textarea>
             <label>Ингридиенты</label>
