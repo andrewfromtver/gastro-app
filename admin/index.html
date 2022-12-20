@@ -126,7 +126,24 @@
             </button>
         </form>
     </div>
+    <script src="../database.js"></script>
     <script>
+        let items = []
+        let types = []
+
+        let uniqueItems = []
+        let uniqueTypes = []
+
+        database.forEach(e => {
+            e.components.forEach(e => {
+                items.push(e)
+            })
+            types.push(e.type)
+        })
+
+        uniqueItems = [... new Set(items)]
+        uniqueTypes = [... new Set(types)]
+
         let guid = () => {
             let length = 32
             var result = ''
@@ -141,7 +158,7 @@
 
         const addItem = (type) => {
             let itemsInner = '<option selected></option>'
-            items.forEach(e => {
+            uniqueItems.forEach(e => {
                 itemsInner += `<option>${e}</option>`
             })
             let inner = ''
@@ -203,78 +220,21 @@
             send(result)
         }
     
-        let items = [
-            'молоко',
-            'свежая потрошеная семга',
-            'семга горячего копчения',
-            'картофель',
-            'морковь',
-            'корень сельдерея',
-            'кочан фенхеля',
-            'лук порей',
-            'мука',
-            'укроп',
-            'лук репчатый',
-            'чеснок',
-            'оливковое масло',
-            'тростниковый сахар',
-            'мускатный орех',
-            'багет',
-            'соль',
-            'черный молотый перец',
-            'говядина на кости',
-            'рис',
-            'томатная паста',
-            'растительное масло',
-            'корень петрушки',
-            'лавровый лист',
-            'очищенные грецкие орехи',
-            'хмели-сунели',
-            'гранатовый сок',
-            'кинза',
-            'базилик',
-            'острый перец',
-            'крупные сырые креветки с головой и панцирем',
-            'сливки 20–38%',
-            'сладкий красный перец',
-            'сливочное масло',
-            'баранья лопатка на кости',
-            'яйца куриные',
-            'черный перец (в горошек)',
-            'щавель',
-            'куриная тушка'
-        ]
-
-        let types = [
-            'первые_блюда',
-            'вторые_блюда',
-            'салаты',
-            'горячие_закуски',
-            'холодные_закуски',
-            'напитки',
-            'вегитарианское',
-            'постное',
-            'новогоднее',
-            'идеально_с_пивом',
-            'идеально_с_вином',
-            'десерты',
-            'финская_кухня'
-        ]
-
         window.onload = () => {
             let itemsInner = '<option selected></option>'
-            items.forEach(e => {
+            uniqueItems.forEach(e => {
                 itemsInner += `<option>${e}</option>`
             })
 
             let typesInner = '<option selected></option>'
-            types.forEach(e => {
+            uniqueTypes.forEach(e => {
                 typesInner += `<option>${e}</option>`
             })
 
             document.querySelector('#items-select').innerHTML = itemsInner
             document.querySelector('#types-select').innerHTML = typesInner
         }
+    
     </script>
 </body>
 </html>
