@@ -138,7 +138,7 @@
             e.components.forEach(e => {
                 items.push(e)
             })
-            types.push(e.type)
+            types.push(e.type.slice(1))
         })
 
         uniqueItems = [... new Set(items)]
