@@ -237,6 +237,7 @@
         }
 
         window.onload = () => {
+            document.querySelector('body').style.backgroundImage = 'url(../assets/food.jpg)'
             let itemsInner = '<option selected></option>'
             uniqueItems.forEach(e => {
                 itemsInner += `<option>${e}</option>`
