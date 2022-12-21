@@ -62,7 +62,7 @@ const addUser = () => {
                     onchange="previewFile()" 
                     id="userpic" 
                     name="userpic" 
-                    accept=".jpg, .jpeg, .png"
+                    accept="image/*"
                 >
             </button>
             <img id="photo" src="./assets/noavatar.png" alt="userpic-preview">
