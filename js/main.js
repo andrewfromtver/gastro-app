@@ -353,7 +353,7 @@ const sendFeedback = (username, description) => {
 // start script execution
 let idbSupport = false
 window.onload = () => {
-    //initDb()
+    initDb()
     document.querySelector('body').style
         .backgroundImage = 'url(./assets/food.jpg)'
     if (localStorage.getItem('Session')) {
