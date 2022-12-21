@@ -239,14 +239,13 @@ const accountPage = () => {
     `
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    if (localStorage.getItem('Session')) {
-        let username = JSON.parse(localStorage.getItem('Session')).username
-        if (idbSupport) getUserFromDb(username, (data) => {
-            document.body.querySelector('.user-photo').src = data[0].userpic
-        })
-    }
     document.querySelector('#logout').onclick = () => {
         localStorage.removeItem('Session')
         window.location.reload()
+    }
+    if (localStorage.getItem('Session') && idbSupport) {
+        getUserFromDb(username, (data) => {
+            document.body.querySelector('.user-photo').src = data[0].userpic
+        })
     }
 }
