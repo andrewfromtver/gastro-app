@@ -229,7 +229,7 @@ const accountPage = () => {
     let inner = `
         <div class="detail animate__animated animate__zoomIn">
             <img class="user-photo">
-            <h3 style="margin: 8px 4px 0 4px;" id="username"></h3>
+            <h3 style="margin: 8px 4px 0 4px;" id="username">${username}</h3>
         </div>
         <div class="detail animate__animated animate__zoomIn">
             <button id="logout">
@@ -241,9 +241,8 @@ const accountPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     if (localStorage.getItem('Session')) {
         let username = JSON.parse(localStorage.getItem('Session')).username
-        getUserFromDb(username, (data) => {
+        if (idbSupport) getUserFromDb(username, (data) => {
             document.body.querySelector('.user-photo').src = data[0].userpic
-            document.body.querySelector('#username').innerText = data[0].username
         })
     }
     document.querySelector('#logout').onclick = () => {
