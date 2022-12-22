@@ -232,20 +232,22 @@ const accountPage = () => {
             <h3 style="margin: 8px 4px 0 4px;" id="username">${username}</h3>
         </div>
         <div class="detail animate__animated animate__zoomIn">
-            <button id="logout">
+            <button onclick="logout()" id="logout">
                 <img src="./assets/logout.svg">
             </button>
         </div>
     `
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    document.querySelector('#logout').onclick = () => {
-        localStorage.removeItem('Session')
-        window.location.reload()
-    }
+    
     if (localStorage.getItem('Session') && idbSupport) {
         getUserFromDb(username, (data) => {
             document.body.querySelector('.user-photo').src = data[0].userpic
         })
     }
+}
+
+const logout = () => {
+    localStorage.removeItem('Session')
+    window.location.reload()
 }
