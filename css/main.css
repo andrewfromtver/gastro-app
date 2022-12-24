@@ -40,10 +40,15 @@
     height: 24px;
 }
 
-.searchbar-nav > form > button {
+.searchbar-nav > form > button  {
     border: none;
     padding: 0;
     margin: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.searchbar-nav > button {
     background: none;
     box-shadow: none;
 }
