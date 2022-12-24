@@ -19,8 +19,6 @@ const initDb = () => {
     }
     else idbSupport = false
 }
-
-
 const addUserToDb = (userData) => {
     const dbName = "gastro-app"
     const request = indexedDB.open(dbName, 1)
@@ -34,8 +32,6 @@ const addUserToDb = (userData) => {
         customerObjectStore.add(userData)
     }
 }
-
-
 const getUserFromDb = (
         username, 
         callback = (result) => {console.log(result[0])}
@@ -58,8 +54,6 @@ const getUserFromDb = (
         }
     }
 }
-
-
 const delUserFromDb = (username) => {
     const dbName = "gastro-app"
     const request = indexedDB.open(dbName, 1)

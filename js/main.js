@@ -10,19 +10,27 @@ let guid = () => {
     }
     return result
 }
-
-
 const checkUncheck = (id) => {
     if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
     else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
 }
-
-
 const saveBtnListner = () => {
+    let shareInner = `
+        <div class="searchbar-nav">
+            <button>
+                <img 
+                    src="./assets/share.svg"
+                    onclick="sendList()"
+                >
+            </button>
+            </form>
+        </div>
+    `
     document.querySelector('.save__toggle').classList = 'save__toggle list'
     let trigger = components.querySelectorAll('input').length
     if (trigger > 1) {
         if (!document.body.querySelector('.save')) {
+            document.querySelector('nav').innerHTML += shareInner
             document.querySelector('.content').innerHTML += `
                 <div class="save list animate__animated animate__zoomIn">
                     <div>
@@ -58,9 +66,16 @@ const saveBtnListner = () => {
         if (document.body.querySelector('.clear__btn')) {
             document.body.querySelector('.clear__btn').remove()
         }
+        if (document.body.querySelector('.searchbar-nav')) {
+            document.body.querySelector('.searchbar-nav').remove()
+        }
     }
 }
-
+const saveId = (id) => {
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    
+    sessionStorage.setItem(`${username}_chatId`, id)
+} 
 
 // hidden app pages
 const menuPage = (query = false, tag = false) => {
@@ -146,8 +161,6 @@ const menuPage = (query = false, tag = false) => {
     refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-
 const likedMenuPage = (query = false) => {
     event.preventDefault()
     let username = JSON.parse(localStorage.getItem('Session')).username
@@ -236,8 +249,6 @@ const likedMenuPage = (query = false) => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-
 const likedListPage = (query = false) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
@@ -324,31 +335,6 @@ const likedListPage = (query = false) => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-
-// feedback
-const sendFeedback = (username, description) => {
-    event.preventDefault()
-    fetch('https://api.telegram.org/bot' +
-        '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
-        '/sendMessage?parse_mod=html&chat_id=-1001838020997&text=' +
-        `${encodeURIComponent('Автор рецепта: ' + username + ' \n')}` +
-        `${encodeURIComponent('Рецепт: ' + description)}`)
-        .then(e => {
-            if (e.status === 200) {
-                document.body.querySelector('.feedback').innerHTML = `
-                    <h3>Спасибо за отклик</h3>
-                    <p>
-                        Мы получили Ваш рецепт, 
-                        наши специалисты обязательно ознакомятся с ним и 
-                        если такого рецепта не окажется в нашей базе, 
-                        мы его с удовольствием опубликуем. Спасибо!
-                    </p>
-                `
-            }
-        })
-}
-
 
 // start script execution
 let idbSupport = false

@@ -47,8 +47,6 @@ const homePage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-
 const manageListPage = (components = false) => {
     let items = []
     let username = JSON.parse(localStorage.getItem('Session')).username
@@ -97,8 +95,6 @@ const manageListPage = (components = false) => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout( () => {saveBtnListner()}, 750)
 }
-
-
 const useListPage = () => {
     document.querySelector('body').style.backgroundImage = `url('./assets/food.jpg')`
     document.querySelector('nav').innerHTML = `
@@ -145,8 +141,6 @@ const useListPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-
 const statPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
@@ -208,8 +202,6 @@ const statPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-
 const accountPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
@@ -230,6 +222,9 @@ const accountPage = () => {
         <div class="detail animate__animated animate__zoomIn">
             <img class="user-photo">
             <h3 style="margin: 8px 4px 0 4px;" id="username">${username}</h3>
+            <div class="chat-id">
+                <input placeholder="Укажите Telegram chat ID" type="text" id="chat-id" oninput="saveId(this.value)">
+            </div>
         </div>
         <div class="detail animate__animated animate__zoomIn">
             <button onclick="logout()" id="logout">
@@ -245,9 +240,8 @@ const accountPage = () => {
             document.body.querySelector('.user-photo').src = data[0].userpic
         })
     }
-}
 
-const logout = () => {
-    localStorage.removeItem('Session')
-    window.location.reload()
+    if (sessionStorage.getItem(`${username}_chatId`)) {
+        document.querySelector('#chat-id').value = sessionStorage.getItem(`${username}_chatId`)
+    }
 }

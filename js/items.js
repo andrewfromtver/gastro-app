@@ -12,8 +12,6 @@ const delItem = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
     saveBtnListner()
 }
-
-
 const addItem = () => {
     components.innerHTML = ''
     let id = guid()
@@ -59,8 +57,6 @@ const addItem = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
     saveBtnListner()
 }
-
-
 const editItem = () => {
     let items = []
     if (components) {
@@ -72,8 +68,6 @@ const editItem = () => {
     let uniqueItems = [...new Set(items)]
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
 }
-
-
 const showItem = (id, backTo = 'menu') => {
     let e = {}
     database.forEach(el => {
@@ -161,7 +155,6 @@ const showItem = (id, backTo = 'menu') => {
     `
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
 const clearAllItems = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let uniqueItems = []
@@ -192,8 +185,6 @@ const likeUnlike = (id) => {
     localStorage.setItem(`${username}_liked`, JSON.stringify(items))
     refreshLikeIcons()
 }
-
-
 const refreshLikeIcons = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
@@ -206,7 +197,6 @@ const refreshLikeIcons = () => {
         else e.style.opacity = '0.2'
     })
 }
-
 
 // lists processing
 const saveList = () => {
@@ -238,8 +228,6 @@ const saveList = () => {
         JSON.stringify(shoppingList)
     )
 }
-
-
 const useList = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
@@ -257,8 +245,6 @@ const useList = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
     useListPage()
 }
-
-
 const delList = (id) => {
     document.body.querySelector(`.${id}`).remove()
 

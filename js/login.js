@@ -13,8 +13,6 @@ const previewFile = () => {
     }
     document.querySelector('input[type=file]').value = ''
 }
-
-
 const checkImage = (username) => {
     if (idbSupport)  getUserFromDb(username, (data) => { 
         if (data[0]) {
@@ -26,7 +24,10 @@ const checkImage = (username) => {
         document.querySelector('input[type=file]').value = ''
     })
 }
-
+const logout = () => {
+    localStorage.removeItem('Session')
+    window.location.reload()
+}
 
 // render wellcome page
 const addUser = () => {
@@ -78,7 +79,6 @@ const addUser = () => {
     `
     document.querySelector('#gastro-app').innerHTML = inner
 }
-
 
 // render tutorial page
 const initApp = (data = false, userReg = false) => {
@@ -142,7 +142,6 @@ const initApp = (data = false, userReg = false) => {
         goShopping()
     }
 }
-
 
 // render navbar icons and main functions
 const goShopping = () => {

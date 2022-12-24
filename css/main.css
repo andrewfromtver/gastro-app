@@ -381,3 +381,13 @@
     width: calc(100% - 8px);
 }
 
+.chat-id > input {
+    outline: none;
+    border: none;
+    height: 32px;
+    margin: 16px 4px;
+    padding: 0 16px;
+    border-bottom: 1px solid #333;
+    width: calc(100% - 40px);
+    border-radius: 0;
+}
