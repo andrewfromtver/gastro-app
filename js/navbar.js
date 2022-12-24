@@ -223,6 +223,7 @@ const accountPage = () => {
             <img class="user-photo">
             <h3 style="margin: 8px 4px 0 4px;" id="username">${username}</h3>
             <div class="chat-id">
+                <label>Telegram chat ID</label>
                 <input placeholder="Укажите Telegram chat ID" type="text" id="chat-id" oninput="saveId(this.value)">
             </div>
         </div>

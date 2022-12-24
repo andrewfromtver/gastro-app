@@ -387,13 +387,24 @@
     width: calc(100% - 8px);
 }
 
+.chat-id {
+    background-color: #fff;
+    width: calc(100% - 8px);
+    margin: -8px auto 8px auto;
+    border-radius: 2px;
+    text-align: left;
+}
+
+.chat-id > label {
+    padding-left: 32px;
+}
+
 .chat-id > input {
     outline: none;
     border: none;
     height: 32px;
-    margin: 16px 4px;
-    padding: 0 16px;
+    margin: 0 32px 16px 32px;
     border-bottom: 1px solid #333;
-    width: calc(100% - 40px);
+    width: calc(100% - 64px);
     border-radius: 0;
 }
