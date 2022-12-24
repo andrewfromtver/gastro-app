@@ -32,8 +32,8 @@ const sendList = () => {
         count ++
     })
 
-    if (sessionStorage.getItem(`${username}_chatId`)) {
-        chatId = JSON.parse(sessionStorage.getItem(`${username}_chatId`))
+    if (localStorage.getItem(`${username}_chatId`)) {
+        chatId = JSON.parse(localStorage.getItem(`${username}_chatId`))
 
         fetch('https://api.telegram.org/bot' +
             '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +

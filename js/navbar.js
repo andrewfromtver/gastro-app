@@ -242,7 +242,7 @@ const accountPage = () => {
         })
     }
 
-    if (sessionStorage.getItem(`${username}_chatId`)) {
-        document.querySelector('#chat-id').value = sessionStorage.getItem(`${username}_chatId`)
+    if (localStorage.getItem(`${username}_chatId`)) {
+        document.querySelector('#chat-id').value = localStorage.getItem(`${username}_chatId`)
     }
 }

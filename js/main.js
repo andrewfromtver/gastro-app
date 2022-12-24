@@ -74,7 +74,7 @@ const saveBtnListner = () => {
 const saveId = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     
-    sessionStorage.setItem(`${username}_chatId`, id)
+    localStorage.setItem(`${username}_chatId`, id)
 } 
 
 // hidden app pages
