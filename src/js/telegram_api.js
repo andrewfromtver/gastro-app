@@ -40,7 +40,7 @@ export const sendList = () => {
             '/sendMessage?parse_mod=html&chat_id=' + chatId + '&text=' +
             `${encodeURIComponent('Вам отправлен новый список покупок от пользователя - ' + username + '\n\n')}` +
             `${encodeURIComponent(list)}`+
-            `${encodeURIComponent('\nОтправленно через приложение Gastro App ' + window.location.href)}`)
+            `${encodeURIComponent('\nОтправленно через приложение Gastro App https://play.google.com/store/apps/details?id=com.gastroapp.main')}`)
             .then(e => {
                 if (e.status === 200) {
                     alert('Список покупок успешно отправлен в Telegram')
