@@ -38,7 +38,7 @@ export const sendList = () => {
         fetch('https://api.telegram.org/bot' +
             '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
             '/sendMessage?parse_mod=html&chat_id=' + chatId + '&text=' +
-            `${encodeURIComponent('Вам отправлен новый список покупок от ' + username + '\n\n')}` +
+            `${encodeURIComponent('Вам отправлен новый список покупок от пользователя - ' + username + '\n\n')}` +
             `${encodeURIComponent(list)}`+
             `${encodeURIComponent('\nОтправленно через приложение Gastro App ' + window.location.href)}`)
             .then(e => {
