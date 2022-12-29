@@ -310,28 +310,35 @@ const menuPage = (query = false, tag = false) => {
         })
     }
     document.querySelector('body').style.backgroundImage = `url(${bgImg})`
-    let exec = 'homePage()'
-    if (tag) exec = 'menuPage()'
+    let exec = homePage
+    if (tag || query) exec = menuPage
     document.querySelector('nav').innerHTML = `
         <div class="title">
             <img 
                 class="animate__animated animate__slideInLeft" 
                 src="${backImg}" 
-                onclick="${exec}"
+                id="backBtn"
             >
             <h2 class="animate__animated animate__slideInLeft">
                 ${tag || 'Рецепты'}
             </h2>
         </div>
         <div class="searchbar-nav">
-            <form onsubmit="menuPage(this.query.value)">
-            <input maxlength="256" name="query" type="text">
+            <form id="searchForm2">
+            <input maxlength="256" id="searchQuery" name="query" type="text">
             <button>
                 <img src="${searchImg}">
             </button>
             </form>
         </div>
     `
+    backBtn.onclick = () => {
+        exec()
+    }
+    searchForm2.onsubmit = () => {
+        event.preventDefault()
+        menuPage(searchQuery.value)
+    }
     let typesInner = ''
     let types = []
     let inner = '<div class="menu"><div class="types animate__animated animate__slideInLeft"></div>'
