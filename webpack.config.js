@@ -17,7 +17,7 @@ module.exports = {
             extensions: ['*', '.js']
     },
     output: {
-        path: path.resolve(__dirname, './distr'),
+        path: path.resolve(__dirname, './docs'),
         filename: '[name].bundle.js'
     },
     module: {
@@ -29,6 +29,10 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
+            },
+            {
+                test: /\.(webmanifest|mp4)$/, 
+                loader: 'file-loader'
             }
         ],
     },
@@ -37,6 +41,7 @@ module.exports = {
             title: 'webpack Boilerplate',
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
+            favicon: 'src/favicon.ico'
         }),
         new CleanWebpackPlugin()
     ]

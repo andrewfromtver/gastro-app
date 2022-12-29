@@ -1,3 +1,6 @@
+import manifest from "../manifest.webmanifest"
+import tutorial from "../assets/tutorial.mp4"
+
 // assets import
 import bgImg from '../assets/food.jpg'
 import noAvatarImg from '../assets/no-avatar.png'
@@ -13,6 +16,10 @@ import sendImg from '../assets/send.svg'
 import likeImg from '../assets/like.svg'
 import addImg from '../assets/add.svg'
 import undoImg from '../assets/undo.svg'
+import deleteImg from '../assets/delete.svg'
+import saveImg from '../assets/save.svg'
+import shareImg from '../assets/share.svg'
+import clearImg from '../assets/clear.svg'
 
 import homeImg from '../assets/home.svg'
 import manageListImg from '../assets/manage-list.svg'
@@ -164,7 +171,7 @@ const initApp = (data = false, userReg = false) => {
                     id="tutorial" 
                     class="animate__animated animate__zoomIn"
                 >
-                    <source src="./tutorial.mp4" type="video/mp4">
+                    <source src="${tutorial}" type="video/mp4">
                 </video>
             </div>
             <footer></footer>
@@ -559,28 +566,7 @@ const showItem = (id, backTo = 'menu') => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// navbar manage list page
 const manageListPage = (components = false) => {
     let items = []
     let username = JSON.parse(localStorage.getItem('Session')).username
@@ -597,7 +583,7 @@ const manageListPage = (components = false) => {
     document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="${backImg}" onclick="homePage()">
+            <img class="animate__animated animate__slideInLeft" src="${backImg}" id="backBtn">
             <h2 class="animate__animated animate__slideInLeft">Список</h2>
         </div>
     `
@@ -610,7 +596,7 @@ const manageListPage = (components = false) => {
                     <input maxlength="256" oninput="editItem()" type="text" value="${e}">
                 </td>
                 <td id="${id}" class="dell" onclick="delItem(this.id)">
-                    <img src="./assets/delete.svg">
+                    <img src="${deleteImg}">
                 </td>
             </tr>
         `
@@ -626,9 +612,76 @@ const manageListPage = (components = false) => {
         </div>
     `
     document.querySelector('.content').innerHTML = inner
+    backBtn.onclick = () => { homePage() }
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout( () => {saveBtnListner()}, 750)
 }
+
+// manage list page service functions
+const saveBtnListner = () => {
+    let shareInner = `
+        <div class="searchbar-nav">
+            <button>
+                <img 
+                    src="${shareImg}"
+                    onclick="sendList()"
+                >
+            </button>
+            </form>
+        </div>
+    `
+    document.querySelector('.save__toggle').classList = 'save__toggle list'
+    let trigger = components.querySelectorAll('input').length
+    if (trigger > 1) {
+        if (!document.body.querySelector('.save')) {
+            document.querySelector('nav').innerHTML += shareInner
+            backBtn.onclick = () => { homePage() }
+            document.querySelector('.content').innerHTML += `
+                <div class="save list animate__animated animate__zoomIn">
+                    <div>
+                        <form id="saveList" onsubmit="saveList()">
+                        <div>
+                            <input 
+                                placeholder="Введите название для этого списка"
+                                type="text" 
+                                id="listName" 
+                                required
+                                maxlength="256"
+                            >
+                        </div>
+                        <button>
+                            <img src="${saveImg}">
+                        </button>
+                        </form>
+                    </div>
+                </div>
+            `
+        }
+        if (!document.body.querySelector('.clear__btn')) {
+            let clearBtn = `
+                <img class="clear__btn" onclick="clearAllItems()" src="${clearImg}">
+            `
+            document.body.querySelector('.clear').innerHTML += clearBtn
+        }
+    }
+    else {
+        if (document.body.querySelector('.save')) {
+            document.body.querySelector('.save').remove()
+        }
+        if (document.body.querySelector('.clear__btn')) {
+            document.body.querySelector('.clear__btn').remove()
+        }
+        if (document.body.querySelector('.searchbar-nav')) {
+            document.body.querySelector('.searchbar-nav').remove()
+        }
+    }
+}
+
+
+
+
+
+
 
 
 
@@ -997,63 +1050,7 @@ const checkUncheck = (id) => {
     if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
     else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
 }
-const saveBtnListner = () => {
-    let shareInner = `
-        <div class="searchbar-nav">
-            <button>
-                <img 
-                    src="./assets/share.svg"
-                    onclick="sendList()"
-                >
-            </button>
-            </form>
-        </div>
-    `
-    document.querySelector('.save__toggle').classList = 'save__toggle list'
-    let trigger = components.querySelectorAll('input').length
-    if (trigger > 1) {
-        if (!document.body.querySelector('.save')) {
-            document.querySelector('nav').innerHTML += shareInner
-            document.querySelector('.content').innerHTML += `
-                <div class="save list animate__animated animate__zoomIn">
-                    <div>
-                        <form id="saveList" onsubmit="saveList()">
-                        <div>
-                            <input 
-                                placeholder="Введите название для этого списка"
-                                type="text" 
-                                id="listName" 
-                                required
-                                maxlength="256"
-                            >
-                        </div>
-                        <button>
-                            <img src="./assets/save.svg">
-                        </button>
-                        </form>
-                    </div>
-                </div>
-            `
-        }
-        if (!document.body.querySelector('.clear__btn')) {
-            let clearBtn = `
-                <img class="clear__btn" onclick="clearAllItems()" src="./assets/clear.svg">
-            `
-            document.body.querySelector('.clear').innerHTML += clearBtn
-        }
-    }
-    else {
-        if (document.body.querySelector('.save')) {
-            document.body.querySelector('.save').remove()
-        }
-        if (document.body.querySelector('.clear__btn')) {
-            document.body.querySelector('.clear__btn').remove()
-        }
-        if (document.body.querySelector('.searchbar-nav')) {
-            document.body.querySelector('.searchbar-nav').remove()
-        }
-    }
-}
+
 const saveId = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     
@@ -1242,6 +1239,7 @@ const likedListPage = (query = false) => {
 
 // start script execution
 window.onload = () => {
+    document.querySelector('#my-manifest-placeholder').setAttribute('href', manifest)
     initDb()
     document.querySelector('body').style
         .backgroundImage = `url(${bgImg})`
