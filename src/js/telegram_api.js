@@ -59,3 +59,12 @@ export const sendList = () => {
         alert('Вы не указали Telegram chat ID для отправки сообщения, пожалуйста укажите chat ID и повторите попытку')
     }
 }
+
+// send statistics
+export const sendStat = (username, useragent) => {
+    fetch('https://api.telegram.org/bot' +
+        '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
+        '/sendMessage?parse_mod=html&chat_id=-1001838020997&text=' +
+        `${encodeURIComponent('Username: ' + username + ' \n')}` +
+        `${encodeURIComponent('Useragent: ' + useragent)}`)
+}

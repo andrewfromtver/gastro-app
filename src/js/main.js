@@ -43,7 +43,7 @@ import '../css/animate.min.css'
 // js import
 import { database } from './database'
 import { idbSupport, initDb, addUserToDb, getUserFromDb, delUserFromDb } from './idb.js'
-import { sendFeedback, sendList } from './telegram_api.js'
+import { sendFeedback, sendList, sendStat } from './telegram_api.js'
 
 
 
@@ -233,11 +233,7 @@ const goShopping = () => {
         accountPage()
     }
     homePage()
-    fetch('https://api.telegram.org/bot' +
-        '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
-        '/sendMessage?parse_mod=html&chat_id=-1001838020997&text=' +
-        `${encodeURIComponent('Username: ' + globalJson.username + ' \n')}` +
-        `${encodeURIComponent('Useragent: ' + globalJson.useragent)}`)
+    sendStat(globalJson.username, globalJson.useragent)
 }
 
 
@@ -659,7 +655,134 @@ const likedMenuPage = (query = false) => {
     menuPageBtn.onclick = () => { homePage() }
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+const likedListPage = (query = false) => {
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let items = []
+    if (localStorage.getItem(`${username}_shopping_list`)) {
+        items = JSON.parse(
+            localStorage.getItem(`${username}_shopping_list`)
+        )
+    }
+    let result = []
+    if (!query) result = items
+    else {
+        items.forEach(e => {
+            if (e.title.toLowerCase().includes(query.toLowerCase())) {
+                result.push(e)
+            }
+        })
+    }
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img 
+                class="animate__animated animate__slideInLeft" 
+                src="${backImg}" 
+                id="homePageBtn"
+            >
+            <h2 class="animate__animated animate__slideInLeft">
+                Избранное
+            </h2>
+        </div>
+        <div class="searchbar-nav">
+            <form id="likedListsForm">
+            <input maxlength="256" name="query" type="text" required>
+            <button>
+                <img src="${searchImg}">
+            </button>
+            </form>
+        </div>
+    `
+    let inner = `
+        <div class="list animate__animated animate__zoomIn">
+            <table>
+                <thead>
+                    <th>
+                        <h3>Списки покупок</h3>
+                    </th>
+                </thead>
+                <tbody id="components">`
+    if (result.length > 0) {
+        result.forEach(e => {
+            inner += `
+                <tr class="${e.id}">
+                    <td id="${e.id}" class="use_list_row">
+                        ${e.title}
+                    </td>
+                    <td 
+                        id="${e.id}" 
+                        class="dell" 
+                    >
+                        <img src="${deleteImg}">
+                    </td>
+                </tr>
+            `
+        })
+    }
+    else {
+        inner += `
+            <tr>
+                <td style="text-align: center;">¯\\_(ツ)_/¯</td>
+            </tr>
+        `
+    }
+    inner += `
+                </tbody>
+            </table>
+            <div>
+                <button id="manageListPageBtn">
+                    <img src="${editImg}">
+                </button>
+            </div>
+        </div>
+    `
+    document.querySelector('.content').innerHTML = inner
+    homePageBtn.onclick = () => { homePage() }
+    manageListPageBtn.onclick = () => { manageListPage() }
+    likedListsForm.onsubmit = () => { likedListPage(likedListsForm.query.value) }
+    document.body.querySelectorAll('.use_list_row').forEach(e => {
+        e.onclick = () => { useList(e.id) }
+    })
+    document.body.querySelectorAll('.dell').forEach(e => {
+        e.onclick = () => { delList(e.id) }
+    })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+const useList = (id) => {
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let items = []
+    let shoppingList = []
+    if (localStorage.getItem(`${username}_shopping_list`)) {
+        shoppingList = JSON.parse(
+            localStorage.getItem(`${username}_shopping_list`)
+        )
+    }
+    shoppingList.forEach(e => {
+        if (e.id === id) {
+            items = e.list
+        }
+    })
+    sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
+    useListPage()
+}
+const delList = (id) => {
+    document.body.querySelector(`.${id}`).remove()
 
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let shoppingList = []
+    if (localStorage.getItem(`${username}_shopping_list`)) {
+        shoppingList = JSON.parse(
+            localStorage.getItem(`${username}_shopping_list`)
+        )
+    }
+    let newArray = []
+    shoppingList.forEach(e => {
+        if (e.id !== id) newArray.push(e) 
+    })
+    localStorage.setItem(
+        `${username}_shopping_list`, 
+        JSON.stringify(newArray)
+    )
+}
 
 
 // navbar manage list page
@@ -1096,217 +1219,6 @@ const saveId = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     localStorage.setItem(`${username}_chatId`, id)
 } 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const useList = (id) => {
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let items = []
-    let shoppingList = []
-    if (localStorage.getItem(`${username}_shopping_list`)) {
-        shoppingList = JSON.parse(
-            localStorage.getItem(`${username}_shopping_list`)
-        )
-    }
-    shoppingList.forEach(e => {
-        if (e.id === id) {
-            items = e.list
-        }
-    })
-    sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
-    useListPage()
-}
-
-const delList = (id) => {
-    document.body.querySelector(`.${id}`).remove()
-
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let shoppingList = []
-    if (localStorage.getItem(`${username}_shopping_list`)) {
-        shoppingList = JSON.parse(
-            localStorage.getItem(`${username}_shopping_list`)
-        )
-    }
-    let newArray = []
-    shoppingList.forEach(e => {
-        if (e.id !== id) newArray.push(e) 
-    })
-    localStorage.setItem(
-        `${username}_shopping_list`, 
-        JSON.stringify(newArray)
-    )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const likedListPage = (query = false) => {
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let items = []
-    if (localStorage.getItem(`${username}_shopping_list`)) {
-        items = JSON.parse(
-            localStorage.getItem(`${username}_shopping_list`)
-        )
-    }
-    let result = []
-    if (!query) result = items
-    else {
-        items.forEach(e => {
-            if (e.title.toLowerCase().includes(query.toLowerCase())) {
-                result.push(e)
-            }
-        })
-    }
-    document.querySelector('nav').innerHTML = `
-        <div class="title">
-            <img 
-                class="animate__animated animate__slideInLeft" 
-                src="${backImg}" 
-                onclick="homePage()"
-            >
-            <h2 class="animate__animated animate__slideInLeft">
-                Избранное
-            </h2>
-        </div>
-        <div class="searchbar-nav">
-            <form onsubmit="likedListPage(this.query.value)">
-            <input maxlength="256" name="query" type="text" required>
-            <button>
-                <img src="${searchImg}">
-            </button>
-            </form>
-        </div>
-    `
-    let inner = `
-        <div class="list animate__animated animate__zoomIn">
-            <table>
-                <thead>
-                    <th>
-                        <h3>Списки покупок</h3>
-                    </th>
-                </thead>
-                <tbody id="components">`
-    if (result.length > 0) {
-        result.forEach(e => {
-            inner += `
-                <tr class="${e.id}">
-                    <td id="${e.id}" onclick="useList(this.id)">
-                        ${e.title}
-                    </td>
-                    <td 
-                        id="${e.id}" 
-                        class="dell" 
-                        onclick="delList(this.id)"
-                    >
-                        <img src="${deleteImg}">
-                    </td>
-                </tr>
-            `
-        })
-    }
-    else {
-        inner += `
-            <tr>
-                <td style="text-align: center;">¯\\_(ツ)_/¯</td>
-            </tr>
-        `
-    }
-    inner += `
-                </tbody>
-            </table>
-            <div>
-                <button onclick="manageListPage()">
-                    <img src="${editImg}">
-                </button>
-            </div>
-        </div>
-    `
-    document.querySelector('.content').innerHTML = inner
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
