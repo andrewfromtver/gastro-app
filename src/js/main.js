@@ -1216,7 +1216,7 @@ const saveId = (id) => {
 // start script execution
 window.onload = () => {
     document.querySelector('#my-manifest-placeholder').setAttribute('href', manifest)
-    //initDb()
+    initDb()
     document.querySelector('body').style
         .backgroundImage = `url(${bgImg})`
     if (localStorage.getItem('Session')) {
