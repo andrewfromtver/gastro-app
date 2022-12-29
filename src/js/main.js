@@ -1171,13 +1171,6 @@ const accountPage = () => {
             <h2 class="animate__animated animate__slideInLeft">Аккаунт</h2>
         </div>
     `
-    let menuItemsQty = database.length
-    let likedMenuItemsQty = 0
-    if (localStorage.getItem(`${username}_liked`)) likedMenuItemsQty = JSON.parse(localStorage.getItem(`${username}_liked`)).length 
-    let likedListsQty = 0
-    if (localStorage.getItem(`${username}_shopping_list`)) likedListsQty = JSON.parse(localStorage.getItem(`${username}_shopping_list`)).length 
-    let itemsInCurrentList = 0
-    if (sessionStorage.getItem(`${username}_list`)) itemsInCurrentList = JSON.parse(sessionStorage.getItem(`${username}_list`)).length 
     let inner = `
         <div class="detail animate__animated animate__zoomIn">
             <img class="user-photo">
@@ -1194,20 +1187,18 @@ const accountPage = () => {
         </div>
     `
     document.querySelector('.content').innerHTML = inner
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    
+    homePageBtn.onclick = () => { homePage() }
+    logoutBtn.onclick = () => { logout() }
+    chat_id.oninput = () => { saveId(chat_id.value) }
     if (localStorage.getItem('Session') && idbSupport) {
         getUserFromDb(username, (data) => {
             document.body.querySelector('.user-photo').src = data[0].userpic
         })
     }
-
     if (localStorage.getItem(`${username}_chatId`)) {
         document.querySelector('#chat_id').value = localStorage.getItem(`${username}_chatId`)
     }
-    homePageBtn.onclick = () => { homePage() }
-    logoutBtn.onclick = () => { logout() }
-    chat_id.oninput = () => { saveId(chat_id.value) }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // account page service functions
