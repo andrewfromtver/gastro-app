@@ -1,4 +1,9 @@
 // assets import
+import bgImg from '../assets/food.jpg'
+import noAvatarImg from '../assets/no-avatar.png'
+import addPhotoImg from '../assets/add-photo.svg'
+import loginImg from '../assets/login.svg'
+
 
 // css import
 import '../css/style.css'
@@ -11,8 +16,100 @@ import { database } from './database'
 import { idbSupport, initDb, addUserToDb, getUserFromDb, delUserFromDb } from './idb.js'
 import { sendFeedback, sendList } from './telegram_api.js'
 
+// render wellcome page
+const addUser = () => {
+    let inner = `
+        <div class="wellcome animate__animated animate__pulse">
+            <h2>Gastro App</h2>
+            <form id="userAdd">
+                <label>Логин</label>
+                <input 
+                    type="text"
+                    id="userName" 
+                    name="username" 
+                    maxlength="128" 
+                    placeholder="Имя или псевдоним (не более 128 символов)"
+                    required
+                >
+    `
+    
+    if (idbSupport) {
+        inner += `
+            <button 
+                id="addAvatar"
+                type="button"
+            >
+                <img src="${addPhotoImg}">
+                <input
+                    hidden
+                    type="file" 
+                    id="userPic" 
+                    name="userpic" 
+                    accept="image/*"
+                >
+            </button>
+            <img id="photo" src="${noAvatarImg}" alt="userpic-preview">
+        `
+    }
+
+    inner += `
+                <button>
+                    <img src="${loginImg}">
+                </button>
+            </form>
+        </div>
+    `
+    document.querySelector('#gastro-app').innerHTML = inner
+    userAdd.onsubmit = () => {
+        event.preventDefault()
+        initApp(
+            {
+                username: document.querySelector('input').value,
+                useragent: window.navigator.userAgent || 'Not defined'
+            }, 
+            true
+        )
+    }
+    userName.oninput = () => {
+        checkImage(userName.value)
+    }
+    addAvatar.onclick = () => {
+        userPic.click()
+    }
+    userPic.onchange = () => {
+        previewFile()
+    } 
+}
+
+// welcome page service functions
+const checkImage = (username) => {
+    if (idbSupport)  getUserFromDb(username, (data) => { 
+        if (data[0]) {
+            document.querySelector('#photo').src = data[0].userpic
+        }
+        else {
+            document.querySelector('#photo').src = noAvatarImg
+        }
+        document.querySelector('input[type=file]').value = ''
+    })
+}
+const previewFile = () => {
+    let preview = document.querySelector('#photo')
+    let file = document.querySelector('input[type=file]').files[0]
+    let reader  = new FileReader()
+    reader.onloadend = function () {
+        preview.src = reader.result
+    }
+    if (file) {
+        reader.readAsDataURL(file)
+    } else {
+        preview.src = ''
+    }
+    document.querySelector('input[type=file]').value = ''
+}
+
 // nav buttons
-export const homePage = () => {
+const homePage = () => {
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
         <div stye="width: 100%;" class="title">
@@ -22,7 +119,7 @@ export const homePage = () => {
     let inner = `
         <div class="home animate__animated animate__zoomIn">
             <div class="searchbar">
-                <form onsubmit="menuPage(this.query.value)">
+                <form id="searchForm">
                     <input 
                         name="query"
                         required
@@ -59,8 +156,12 @@ export const homePage = () => {
     `
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
+    searchForm.onsubmit = () => {
+        event.preventDefault()
+        menuPage(this.query.value)
+    }
 }
-export const manageListPage = (components = false) => {
+const manageListPage = (components = false) => {
     let items = []
     let username = JSON.parse(localStorage.getItem('Session')).username
     if (sessionStorage.getItem(`${username}_list`)) {
@@ -108,7 +209,7 @@ export const manageListPage = (components = false) => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout( () => {saveBtnListner()}, 750)
 }
-export const useListPage = () => {
+const useListPage = () => {
     document.querySelector('body').style.backgroundImage = `url('./assets/food.jpg')`
     document.querySelector('nav').innerHTML = `
         <div class="title">
@@ -154,7 +255,7 @@ export const useListPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-export const statPage = () => {
+const statPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
@@ -215,7 +316,7 @@ export const statPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-export const accountPage = () => {
+const accountPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
@@ -261,7 +362,7 @@ export const accountPage = () => {
 }
 
 // items processing
-export const delItem = (id) => {
+const delItem = (id) => {
     document.body.querySelector(`.${id}`).remove()
     let items = []
     if (components) {
@@ -274,7 +375,7 @@ export const delItem = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
     saveBtnListner()
 }
-export const addItem = () => {
+const addItem = () => {
     components.innerHTML = ''
     let id = guid()
     let inner = ''
@@ -319,7 +420,7 @@ export const addItem = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
     saveBtnListner()
 }
-export const editItem = () => {
+const editItem = () => {
     let items = []
     if (components) {
         components.querySelectorAll('input').forEach (e => {
@@ -330,7 +431,7 @@ export const editItem = () => {
     let uniqueItems = [...new Set(items)]
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
 }
-export const showItem = (id, backTo = 'menu') => {
+const showItem = (id, backTo = 'menu') => {
     let e = {}
     database.forEach(el => {
         if (el.id == id) e = el
@@ -417,7 +518,7 @@ export const showItem = (id, backTo = 'menu') => {
     `
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-export const clearAllItems = () => {
+const clearAllItems = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let uniqueItems = []
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
@@ -425,7 +526,7 @@ export const clearAllItems = () => {
 }
 
 // liked items processing
-export const likeUnlike = (id) => {
+const likeUnlike = (id) => {
     if (!e) var e = window.event
     e.cancelBubble = true
     if (e.stopPropagation) e.stopPropagation()
@@ -447,7 +548,7 @@ export const likeUnlike = (id) => {
     localStorage.setItem(`${username}_liked`, JSON.stringify(items))
     refreshLikeIcons()
 }
-export const refreshLikeIcons = () => {
+const refreshLikeIcons = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     if (localStorage.getItem(`${username}_liked`)) {
@@ -461,7 +562,7 @@ export const refreshLikeIcons = () => {
 }
 
 // lists processing
-export const saveList = () => {
+const saveList = () => {
     event.preventDefault()
     let username = JSON.parse(localStorage.getItem('Session')).username
     let shoppingList = []
@@ -490,7 +591,7 @@ export const saveList = () => {
         JSON.stringify(shoppingList)
     )
 }
-export const useList = (id) => {
+const useList = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     let shoppingList = []
@@ -507,7 +608,7 @@ export const useList = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
     useListPage()
 }
-export const delList = (id) => {
+const delList = (id) => {
     document.body.querySelector(`.${id}`).remove()
 
     let username = JSON.parse(localStorage.getItem('Session')).username
@@ -528,31 +629,8 @@ export const delList = (id) => {
 }
 
 // service functions
-const previewFile = () => {
-    let preview = document.querySelector('#photo')
-    let file = document.querySelector('input[type=file]').files[0]
-    let reader  = new FileReader()
-    reader.onloadend = function () {
-        preview.src = reader.result
-    }
-    if (file) {
-        reader.readAsDataURL(file)
-    } else {
-        preview.src = ''
-    }
-    document.querySelector('input[type=file]').value = ''
-}
-const checkImage = (username) => {
-    if (idbSupport)  getUserFromDb(username, (data) => { 
-        if (data[0]) {
-            document.querySelector('#photo').src = data[0].userpic
-        }
-        else {
-            document.querySelector('#photo').src = './assets/noavatar.png'
-        }
-        document.querySelector('input[type=file]').value = ''
-    })
-}
+
+
 const logout = () => {
     localStorage.removeItem('Session')
     window.location.reload()
@@ -568,11 +646,11 @@ export let guid = () => {
     }
     return result
 }
-export const checkUncheck = (id) => {
+const checkUncheck = (id) => {
     if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
     else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
 }
-export const saveBtnListner = () => {
+const saveBtnListner = () => {
     let shareInner = `
         <div class="searchbar-nav">
             <button>
@@ -629,67 +707,16 @@ export const saveBtnListner = () => {
         }
     }
 }
-export const saveId = (id) => {
+const saveId = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     
     localStorage.setItem(`${username}_chatId`, id)
 } 
 
-// render wellcome page
-const addUser = () => {
-    let inner = `
-        <div class="wellcome animate__animated animate__pulse">
-            <h2>Gastro App</h2>
-            <form id="adduser" onsubmit="initApp({
-                username: document.querySelector('input').value,
-                useragent: window.navigator.userAgent || 'Not defined'
-            }, true)">
-                <label>Логин</label>
-                <input 
-                    type="text" 
-                    oninput="checkImage(this.value)" 
-                    id="username" 
-                    name="username" 
-                    maxlength="128" 
-                    placeholder="Имя или псевдоним (не более 128 символов)"
-                    required
-                >
-    `
-    
-    if (idbSupport) {
-        inner += `
-            <button 
-                onclick="document.body.querySelector('#userpic').click()" 
-                type="button"
-            >
-                <img src="./assets/add_a_photo.svg">
-                <input
-                    hidden
-                    type="file" 
-                    onchange="previewFile()" 
-                    id="userpic" 
-                    name="userpic" 
-                    accept="image/*"
-                >
-            </button>
-            <img id="photo" src="./assets/noavatar.png" alt="userpic-preview">
-        `
-    }
-
-    inner += `
-                <button>
-                    <img src="./assets/login.svg">
-                </button>
-            </form>
-        </div>
-    `
-    document.querySelector('#gastro-app').innerHTML = inner
-}
-
 // render tutorial page
-export const initApp = (data = false, userReg = false) => {
+const initApp = (data = false, userReg = false) => {
     event.preventDefault()
-    let photo = './assets/noavatar.png'
+    let photo = noAvatarImg
     if (document.querySelector('#photo')) photo = document
         .querySelector('#photo').src
     let inner = ''
@@ -750,7 +777,7 @@ export const initApp = (data = false, userReg = false) => {
 }
 
 // render navbar icons and main functions
-export const goShopping = () => {
+const goShopping = () => {
     let globalJson = JSON.parse(localStorage.getItem('Session'))
     localStorage.setItem(
         `${globalJson.username}_tutorial`, 
@@ -1051,7 +1078,7 @@ const likedListPage = (query = false) => {
 window.onload = () => {
     initDb()
     document.querySelector('body').style
-        .backgroundImage = 'url(./assets/food.jpg)'
+        .backgroundImage = `url(${bgImg})`
     if (localStorage.getItem('Session')) {
         let globalJson = JSON.parse(localStorage.getItem('Session'))
         initApp(globalJson)
