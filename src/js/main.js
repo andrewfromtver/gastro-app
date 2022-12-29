@@ -652,7 +652,7 @@ const saveBtnListner = () => {
             document.querySelector('.content').innerHTML += `
                 <div class="save list animate__animated animate__zoomIn">
                     <div>
-                        <form id="saveList" onsubmit="saveList()">
+                        <form id="saveListForm">
                         <div>
                             <input 
                                 placeholder="Введите название для этого списка"
@@ -669,6 +669,9 @@ const saveBtnListner = () => {
                     </div>
                 </div>
             `
+            saveListForm.onsubmit = () => {
+                saveList() 
+            }
         }
         if (!document.body.querySelector('.clear__btn')) {
             let clearBtn = `
@@ -779,7 +782,35 @@ const clearAllItems = () => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
     manageListPage()
 }
-
+const saveList = () => {
+    event.preventDefault()
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let shoppingList = []
+    if (localStorage.getItem(`${username}_shopping_list`)) {
+        shoppingList = JSON.parse(
+            localStorage.getItem(`${username}_shopping_list`)
+        )
+    }
+    let items = []
+    if (components) {
+        components.querySelectorAll('input').forEach(e => {
+            items.push(e.value)
+        })
+    }
+    let list = {
+        id: guid(),
+        title: document.querySelector('#listName').value,
+        list: items
+    }
+    if (document.body.querySelector('.save')) {
+        document.body.querySelector('.save').remove()
+    }
+    shoppingList.push(list)
+    localStorage.setItem(
+        `${username}_shopping_list`, 
+        JSON.stringify(shoppingList)
+    )
+}
 
 
 
@@ -1019,35 +1050,7 @@ const accountPage = () => {
 
 
 // lists processing
-const saveList = () => {
-    event.preventDefault()
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let shoppingList = []
-    if (localStorage.getItem(`${username}_shopping_list`)) {
-        shoppingList = JSON.parse(
-            localStorage.getItem(`${username}_shopping_list`)
-        )
-    }
-    let items = []
-    if (components) {
-        components.querySelectorAll('input').forEach(e => {
-            items.push(e.value)
-        })
-    }
-    let list = {
-        id: guid(),
-        title: document.querySelector('#listName').value,
-        list: items
-    }
-    if (document.body.querySelector('.save')) {
-        document.body.querySelector('.save').remove()
-    }
-    shoppingList.push(list)
-    localStorage.setItem(
-        `${username}_shopping_list`, 
-        JSON.stringify(shoppingList)
-    )
-}
+
 const useList = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
