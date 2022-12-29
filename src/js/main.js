@@ -7,6 +7,7 @@ import noAvatarImg from '../assets/no-avatar.png'
 import noImg from '../assets/no-image.png'
 import addPhotoImg from '../assets/add-photo.svg'
 import loginImg from '../assets/login.svg'
+import logoutImg from '../assets/logout.svg'
 
 import searchImg from '../assets/search.svg'
 import backImg from '../assets/back.svg'
@@ -344,7 +345,7 @@ const menuPage = (query = false, tag = false) => {
         </div>
         <div class="searchbar-nav">
             <form id="searchForm2">
-            <input maxlength="256" id="searchQuery" name="query" type="text">
+            <input required maxlength="256" id="searchQuery" name="query" type="text">
             <button>
                 <img src="${searchImg}">
             </button>
@@ -561,6 +562,101 @@ const showItem = (id, backTo = 'menu') => {
     manageBtn.onclick = () => {
         manageListPage(document.body.querySelector('#components'))
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+const likedMenuPage = (query = false) => {
+    event.preventDefault()
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let items = []
+    if (localStorage.getItem(`${username}_liked`)) {
+        let itemsArr = JSON.parse(localStorage.getItem(`${username}_liked`))
+        itemsArr.forEach(e => {
+            items.push(e.split('_')[0])
+        })
+    }
+    let result = []
+    if (!query) result = items
+    else {
+        items.forEach(el => {
+            database.forEach(e => {
+                if (e.id == el && e.title.toLowerCase().includes(query.toLowerCase())
+                ) {
+                    result.push(e.id)
+                }
+            })
+        })
+    }
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img 
+                class="animate__animated animate__slideInLeft" 
+                src="${backImg}" 
+                id="homePageBtn"
+            >
+            <h2 class="animate__animated animate__slideInLeft">
+                Избранное
+            </h2>
+        </div>
+        <div class="searchbar-nav">
+            <form id="searchFormListner">
+            <input maxlength="256" id="searchInput" name="query" type="text" required>
+            <button>
+                <img src="${searchImg}">
+            </button>
+            </form>
+        </div>
+    `
+    let inner = `
+        <div class="list animate__animated animate__zoomIn">
+            <table>
+                <thead>
+                    <th>
+                        <h3>Рецепты</h3>
+                    </th>
+                </thead>
+                <tbody id="components">`
+    if (result.length > 0) {
+        result.forEach(e => {
+            let obj = {}
+
+            database.forEach(el => {
+                if (el.id == e) obj = el
+            })
+            inner += `
+                <tr>
+                    <td 
+                        id="${obj.id}"
+                    >
+                        ${obj.title}
+                    </td>
+                </tr>
+            `
+        })
+    }
+    else {
+        inner += `
+            <tr>
+                <td style="text-align: center;">¯\\_(ツ)_/¯</td>
+            </tr>
+        `
+    }
+    inner += `
+                </tbody>
+            </table>
+            <div>
+                <button id="menuPageBtn">
+                    <img src="${editImg}">
+                </button>
+            </div>
+        </div>
+    `
+    homePageBtn.onclick = () => { homePage() }
+    searchFormListner.onsubmit = () => { likedMenuPage(searchInput.value) }
+    document.querySelector('.content').innerHTML = inner
+    result.forEach(e => {
+        document.body.querySelector(`#${e}`).onclick = () => { showItem(e, 'liked') }
+    })
+    menuPageBtn.onclick = () => { homePage() }
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
@@ -814,45 +910,11 @@ const saveList = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// navbar use list page
 const useListPage = () => {
-    document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="${backImg}" onclick="homePage()">
+            <img class="animate__animated animate__slideInLeft" src="${backImg}" id="homePageBtn">
             <h2 class="animate__animated animate__slideInLeft">Покупки</h2>
         </div>
     `
@@ -875,7 +937,7 @@ const useListPage = () => {
         let id = guid()
         inner += `
                     <tr class="${id}">
-                        <td id="${id}" onclick="checkUncheck(this.id)">
+                        <td id="${id}" class="check_uncheck">
                             ${e}
                         </td>
                     </tr>
@@ -886,43 +948,35 @@ const useListPage = () => {
             </table>
             <div>
                 <button>
-                    <img onclick="manageListPage()" src="${editImg}">
+                    <img id="manageListPageBtn" src="${editImg}">
                 </button>
             </div>
         </div>
     `
     document.querySelector('.content').innerHTML = inner
+    manageListPageBtn.onclick = () => { manageListPage() }
+    homePageBtn.onclick = () => { homePage() }
+    document.body.querySelectorAll('.check_uncheck').forEach(e => {
+        e.onclick = () => { checkUncheck(e.id) }
+    })
     window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// use list page service functions
+const checkUncheck = (id) => {
+    if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
+    else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// stat page
 const statPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="${backImg}" onclick="homePage()">
+            <img class="animate__animated animate__slideInLeft" src="${backImg}" id="homePageBtn">
             <h2 class="animate__animated animate__slideInLeft">Статистика</h2>
         </div>
     `
@@ -958,7 +1012,7 @@ const statPage = () => {
                 <p>В текущем списке</p>
             </div>
         </div>
-        <form onsubmit="sendFeedback(this.name.value, this.description.value)" class="feedback animate__animated animate__zoomIn" id="feedback">
+        <form class="feedback animate__animated animate__zoomIn" id="feedback">
             <h3>Отправьте нам Ваш рецепт</h3>
             <label>Вашe имя или псевдоним</label>
             <input placeholder="Мы укажем это значение в графе 'Автор рецепта'" maxlength="256" name="name" type="text" required>
@@ -976,37 +1030,21 @@ const statPage = () => {
         </form>
     `
     document.querySelector('.content').innerHTML = inner
+    homePageBtn.onclick = () => { homePage() }
+    feedback.onsubmit = () => {
+        sendFeedback(feedback.name.value, feedback.description.value)
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// account page
 const accountPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
-    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <img class="animate__animated animate__slideInLeft" src="${backImg}" id="homePageBtn">
             <h2 class="animate__animated animate__slideInLeft">Аккаунт</h2>
         </div>
     `
@@ -1023,12 +1061,12 @@ const accountPage = () => {
             <h3 style="margin: 8px 4px 0 4px;" id="username">${username}</h3>
             <div class="chat-id">
                 <label>Telegram chat ID</label>
-                <input placeholder="Укажите Telegram chat ID" type="text" id="chat-id" oninput="saveId(this.value)">
+                <input placeholder="Укажите Telegram chat ID" type="text" id="chat_id">
             </div>
         </div>
         <div class="detail animate__animated animate__zoomIn">
-            <button onclick="logout()" id="logout">
-                <img src="./assets/logout.svg">
+            <button id="logoutBtn">
+                <img src="${logoutImg}">
             </button>
         </div>
     `
@@ -1042,14 +1080,65 @@ const accountPage = () => {
     }
 
     if (localStorage.getItem(`${username}_chatId`)) {
-        document.querySelector('#chat-id').value = localStorage.getItem(`${username}_chatId`)
+        document.querySelector('#chat_id').value = localStorage.getItem(`${username}_chatId`)
     }
+    homePageBtn.onclick = () => { homePage() }
+    logoutBtn.onclick = () => { logout() }
+    chat_id.oninput = () => { saveId(chat_id.value) }
 }
 
+// account page service functions
+const logout = () => {
+    localStorage.removeItem('Session')
+    window.location.reload()
+}
+const saveId = (id) => {
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    localStorage.setItem(`${username}_chatId`, id)
+} 
 
 
 
-// lists processing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const useList = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
@@ -1068,6 +1157,7 @@ const useList = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
     useListPage()
 }
+
 const delList = (id) => {
     document.body.querySelector(`.${id}`).remove()
 
@@ -1088,118 +1178,21 @@ const delList = (id) => {
     )
 }
 
-// service functions
-
-
-const logout = () => {
-    localStorage.removeItem('Session')
-    window.location.reload()
-}
-
-const checkUncheck = (id) => {
-    if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
-    else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
-}
-
-const saveId = (id) => {
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    
-    localStorage.setItem(`${username}_chatId`, id)
-} 
 
 
 
 
-// hidden app pages
 
-const likedMenuPage = (query = false) => {
-    event.preventDefault()
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let items = []
-    if (localStorage.getItem(`${username}_liked`)) {
-        items = JSON.parse(localStorage.getItem(`${username}_liked`))
-    }
-    let result = []
-    if (!query) result = items
-    else {
-        items.forEach(el => {
-            database.forEach(e => {
-                if (e.id == el && e.title.toLowerCase().includes(query.toLowerCase())
-                ) {
-                    result.push(e.id)
-                }
-            })
-        })
-    }
-    document.querySelector('body').style
-        .backgroundImage = 'url(./assets/food.jpg)'
-    document.querySelector('nav').innerHTML = `
-        <div class="title">
-            <img 
-                class="animate__animated animate__slideInLeft" 
-                src="./assets/back.svg" 
-                onclick="homePage()"
-            >
-            <h2 class="animate__animated animate__slideInLeft">
-                Избранное
-            </h2>
-        </div>
-        <div class="searchbar-nav">
-            <form onsubmit="likedMenuPage(this.query.value)">
-            <input maxlength="256" name="query" type="text" required>
-            <button>
-                <img src="./assets/search.svg">
-            </button>
-            </form>
-        </div>
-    `
-    let inner = `
-        <div class="list animate__animated animate__zoomIn">
-            <table>
-                <thead>
-                    <th>
-                        <h3>Рецепты</h3>
-                    </th>
-                </thead>
-                <tbody id="components">`
-    if (result.length > 0) {
-        result.forEach(e => {
-            let obj = {}
-            database.forEach(el => {
-                if (el.id == e) obj = el
-            })
-            inner += `
-                <tr>
-                    <td 
-                        id="${obj.id}" 
-                        onclick="showItem(this.id, 'liked')"
-                    >
-                        ${obj.title}
-                    </td>
-                </tr>
-            `
-        })
-    }
-    else {
-        inner += `
-            <tr>
-                <td style="text-align: center;">¯\\_(ツ)_/¯</td>
-            </tr>
-        `
-    }
-    inner += `
-                </tbody>
-            </table>
-            <div>
-                <button onclick="menuPage()">
-                    <img src="./assets/edit.svg">
-                </button>
-            </div>
-        </div>
-    `
-    document.querySelector('.content').innerHTML = inner
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+
+
+
+
+
+
+
+
+
+
 const likedListPage = (query = false) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
@@ -1217,13 +1210,11 @@ const likedListPage = (query = false) => {
             }
         })
     }
-    document.querySelector('body').style
-        .backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
         <div class="title">
             <img 
                 class="animate__animated animate__slideInLeft" 
-                src="./assets/back.svg" 
+                src="${backImg}" 
                 onclick="homePage()"
             >
             <h2 class="animate__animated animate__slideInLeft">
@@ -1234,7 +1225,7 @@ const likedListPage = (query = false) => {
             <form onsubmit="likedListPage(this.query.value)">
             <input maxlength="256" name="query" type="text" required>
             <button>
-                <img src="./assets/search.svg">
+                <img src="${searchImg}">
             </button>
             </form>
         </div>
@@ -1260,7 +1251,7 @@ const likedListPage = (query = false) => {
                         class="dell" 
                         onclick="delList(this.id)"
                     >
-                        <img src="./assets/delete.svg">
+                        <img src="${deleteImg}">
                     </td>
                 </tr>
             `
@@ -1278,7 +1269,7 @@ const likedListPage = (query = false) => {
             </table>
             <div>
                 <button onclick="manageListPage()">
-                    <img src="./assets/edit.svg">
+                    <img src="${editImg}">
                 </button>
             </div>
         </div>
@@ -1286,6 +1277,38 @@ const likedListPage = (query = false) => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // start script execution
 window.onload = () => {

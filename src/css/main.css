@@ -228,7 +228,7 @@
     list-style: inside;
 }
 
-.detail > div > button, .list > div > button, .save > div > form > button, #logout {
+.detail > div > button, .list > div > button, .save > div > form > button, #logoutBtn {
     border: none;
     background-color: #a5d6a7;
     cursor: pointer;
@@ -236,11 +236,11 @@
     border-radius: 100%;
 }
 
-.detail > div > button:hover, .list > div > button:hover, .save > div > form > button:hover, #logout:hover {
+.detail > div > button:hover, .list > div > button:hover, .save > div > form > button:hover, #logoutBtn:hover {
     background-color: #d7ffd9;
 }
 
-.detail > div > button:active, .list > div > button:active, .save > div > form > button:active, #logout:active {
+.detail > div > button:active, .list > div > button:active, .save > div > form > button:active, #logoutBtn:active {
     background-color: #75a478;
 }
 
