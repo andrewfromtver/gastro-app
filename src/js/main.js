@@ -593,9 +593,9 @@ const manageListPage = (components = false) => {
         inner += `
             <tr class="${id}">
                 <td>
-                    <input maxlength="256" oninput="editItem()" type="text" value="${e}">
+                    <input maxlength="256" id="itemInput" type="text" value="${e}">
                 </td>
-                <td id="${id}" class="dell" onclick="delItem(this.id)">
+                <td id="${id}" class="dell">
                     <img src="${deleteImg}">
                 </td>
             </tr>
@@ -606,15 +606,26 @@ const manageListPage = (components = false) => {
             </table>
             <div>
                 <button>
-                    <img onclick="addItem()" src="${addToCartImg}">
+                    <img id="addItemBtn" src="${addToCartImg}">
                 </button>
             </div>
         </div>
     `
     document.querySelector('.content').innerHTML = inner
-    backBtn.onclick = () => { homePage() }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout( () => {saveBtnListner()}, 750)
+    backBtn.onclick = () => { homePage() }
+    addItemBtn.onclick = () => { addItem() }
+    document.body.querySelectorAll('#itemInput').forEach(e => {
+        e.oninput = () => { 
+            editItem()
+        }
+    })
+    document.body.querySelectorAll('.dell').forEach(e => {
+        e.onclick = () => { 
+            delItem(this.id)
+        }
+    })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // manage list page service functions
@@ -624,7 +635,7 @@ const saveBtnListner = () => {
             <button>
                 <img 
                     src="${shareImg}"
-                    onclick="sendList()"
+                    id="sendListBtn"
                 >
             </button>
             </form>
@@ -635,7 +646,9 @@ const saveBtnListner = () => {
     if (trigger > 1) {
         if (!document.body.querySelector('.save')) {
             document.querySelector('nav').innerHTML += shareInner
-            backBtn.onclick = () => { homePage() }
+            sendListBtn.onclick = () => {
+                sendList()
+            }
             document.querySelector('.content').innerHTML += `
                 <div class="save list animate__animated animate__zoomIn">
                     <div>
@@ -659,9 +672,12 @@ const saveBtnListner = () => {
         }
         if (!document.body.querySelector('.clear__btn')) {
             let clearBtn = `
-                <img class="clear__btn" onclick="clearAllItems()" src="${clearImg}">
+                <img class="clear__btn" src="${clearImg}">
             `
             document.body.querySelector('.clear').innerHTML += clearBtn
+            document.body.querySelector('.clear__btn').onclick = () => {
+                clearAllItems()
+            }
         }
     }
     else {
@@ -675,7 +691,113 @@ const saveBtnListner = () => {
             document.body.querySelector('.searchbar-nav').remove()
         }
     }
+    backBtn.onclick = () => { homePage() }
+    addItemBtn.onclick = () => { addItem() }
+    document.body.querySelectorAll('#itemInput').forEach(e => {
+        e.oninput = () => { 
+            editItem()
+        }
+    })
+    document.body.querySelectorAll('.dell').forEach(e => {
+        e.onclick = () => { 
+            delItem(e.id)
+        }
+    })
 }
+const delItem = (id) => {
+    document.body.querySelector(`.${id}`).remove()
+    let items = []
+    if (components) {
+        components.querySelectorAll('input').forEach (e => {
+            items.push(e.value)
+        })
+    }
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let uniqueItems = [...new Set(items)]
+    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
+    saveBtnListner()
+}
+const addItem = () => {
+    components.innerHTML = ''
+    let id = guid()
+    let inner = ''
+    let items = []
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    if (sessionStorage.getItem(`${username}_list`)) {
+        items = JSON.parse(sessionStorage.getItem(`${username}_list`))
+    }
+    items.forEach(e => {
+        let id = guid()
+        inner += `
+            <tr class="${id}">
+                <td>
+                    <input 
+                        id="itemInput"
+                        type="text" 
+                        value="${e}"
+                        maxlength="256"
+                    >
+                </td>
+                <td id="${id}" class="dell">
+                    <img src="${deleteImg}">
+                </td>
+            </tr>
+        `
+    })
+    inner += `
+        <tr class="${id}">
+            <td>
+                <input 
+                    id="itemInput"
+                    type="text"
+                    maxlength="256"
+                >
+            </td>
+            <td id="${id}" class="dell">
+                <img src="${deleteImg}">
+            </td>
+        </tr>
+    `
+    components.innerHTML +=inner
+    saveBtnListner()
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+}
+const editItem = () => {
+    let items = []
+    if (components) {
+        components.querySelectorAll('input').forEach (e => {
+            items.push(e.value)
+        })
+    }
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let uniqueItems = [...new Set(items)]
+    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
+}
+const clearAllItems = () => {
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let uniqueItems = []
+    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
+    manageListPage()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -893,82 +1015,7 @@ const accountPage = () => {
     }
 }
 
-// items processing
-const delItem = (id) => {
-    document.body.querySelector(`.${id}`).remove()
-    let items = []
-    if (components) {
-        components.querySelectorAll('input').forEach (e => {
-            items.push(e.value)
-        })
-    }
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let uniqueItems = [...new Set(items)]
-    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
-    saveBtnListner()
-}
-const addItem = () => {
-    components.innerHTML = ''
-    let id = guid()
-    let inner = ''
-    let items = []
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    if (sessionStorage.getItem(`${username}_list`)) {
-        items = JSON.parse(sessionStorage.getItem(`${username}_list`))
-    }
-    items.forEach(e => {
-        let id = guid()
-        inner += `
-            <tr class="${id}">
-                <td>
-                    <input 
-                        oninput="editItem()" 
-                        type="text" 
-                        value="${e}"
-                        maxlength="256"
-                    >
-                </td>
-                <td id="${id}" class="dell" onclick="delItem(this.id)">
-                    <img src="./assets/delete.svg">
-                </td>
-            </tr>
-        `
-    })
-    inner += `
-        <tr class="${id}">
-            <td>
-                <input 
-                    oninput="editItem()" 
-                    type="text"
-                    maxlength="256"
-                >
-            </td>
-            <td id="${id}" class="dell" onclick="delItem(this.id)">
-                <img src="./assets/delete.svg">
-            </td>
-        </tr>
-    `
-    components.innerHTML +=inner
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-    saveBtnListner()
-}
-const editItem = () => {
-    let items = []
-    if (components) {
-        components.querySelectorAll('input').forEach (e => {
-            items.push(e.value)
-        })
-    }
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let uniqueItems = [...new Set(items)]
-    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
-}
-const clearAllItems = () => {
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let uniqueItems = []
-    sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
-    manageListPage()
-}
+
 
 
 // lists processing
