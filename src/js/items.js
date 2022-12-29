@@ -1,5 +1,5 @@
 // items processing
-const delItem = (id) => {
+export const delItem = (id) => {
     document.body.querySelector(`.${id}`).remove()
     let items = []
     if (components) {
@@ -12,7 +12,7 @@ const delItem = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
     saveBtnListner()
 }
-const addItem = () => {
+export const addItem = () => {
     components.innerHTML = ''
     let id = guid()
     let inner = ''
@@ -57,7 +57,7 @@ const addItem = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
     saveBtnListner()
 }
-const editItem = () => {
+export const editItem = () => {
     let items = []
     if (components) {
         components.querySelectorAll('input').forEach (e => {
@@ -68,7 +68,7 @@ const editItem = () => {
     let uniqueItems = [...new Set(items)]
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
 }
-const showItem = (id, backTo = 'menu') => {
+export const showItem = (id, backTo = 'menu') => {
     let e = {}
     database.forEach(el => {
         if (el.id == id) e = el
@@ -155,7 +155,7 @@ const showItem = (id, backTo = 'menu') => {
     `
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-const clearAllItems = () => {
+export const clearAllItems = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let uniqueItems = []
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
@@ -163,7 +163,7 @@ const clearAllItems = () => {
 }
 
 // liked items processing
-const likeUnlike = (id) => {
+export const likeUnlike = (id) => {
     if (!e) var e = window.event
     e.cancelBubble = true
     if (e.stopPropagation) e.stopPropagation()
@@ -185,7 +185,7 @@ const likeUnlike = (id) => {
     localStorage.setItem(`${username}_liked`, JSON.stringify(items))
     refreshLikeIcons()
 }
-const refreshLikeIcons = () => {
+export const refreshLikeIcons = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     if (localStorage.getItem(`${username}_liked`)) {
@@ -199,7 +199,7 @@ const refreshLikeIcons = () => {
 }
 
 // lists processing
-const saveList = () => {
+export const saveList = () => {
     event.preventDefault()
     let username = JSON.parse(localStorage.getItem('Session')).username
     let shoppingList = []
@@ -228,7 +228,7 @@ const saveList = () => {
         JSON.stringify(shoppingList)
     )
 }
-const useList = (id) => {
+export const useList = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let items = []
     let shoppingList = []
@@ -245,7 +245,7 @@ const useList = (id) => {
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
     useListPage()
 }
-const delList = (id) => {
+export const delList = (id) => {
     document.body.querySelector(`.${id}`).remove()
 
     let username = JSON.parse(localStorage.getItem('Session')).username

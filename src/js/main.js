@@ -1,5 +1,15 @@
+// styles
+import '../css/style.css'
+import '../css/main.css'
+import '../css/login.css'
+import '../css/animate.min.css'
+
+// js
+import {initDb} from './idb.js'
+import {initApp, goShopping} from './login.js'
+
 // service functions
-let guid = () => {
+export let guid = () => {
     let length = 32
     var result = ''
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -10,11 +20,11 @@ let guid = () => {
     }
     return result
 }
-const checkUncheck = (id) => {
+export const checkUncheck = (id) => {
     if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
     else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
 }
-const saveBtnListner = () => {
+export const saveBtnListner = () => {
     let shareInner = `
         <div class="searchbar-nav">
             <button>
@@ -71,7 +81,7 @@ const saveBtnListner = () => {
         }
     }
 }
-const saveId = (id) => {
+export const saveId = (id) => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     
     localStorage.setItem(`${username}_chatId`, id)
@@ -337,7 +347,6 @@ const likedListPage = (query = false) => {
 }
 
 // start script execution
-let idbSupport = false
 window.onload = () => {
     initDb()
     document.querySelector('body').style

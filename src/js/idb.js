@@ -1,5 +1,7 @@
+export let idbSupport = false
+
 // indexed DB
-const initDb = () => {
+export const initDb = () => {
     if (('indexedDB' in window)) {
         const dbName = "gastro-app"
         const request = indexedDB.open(dbName, 1)
@@ -19,7 +21,7 @@ const initDb = () => {
     }
     else idbSupport = false
 }
-const addUserToDb = (userData) => {
+export const addUserToDb = (userData) => {
     const dbName = "gastro-app"
     const request = indexedDB.open(dbName, 1)
     request.onerror = (e) => {
@@ -32,7 +34,7 @@ const addUserToDb = (userData) => {
         customerObjectStore.add(userData)
     }
 }
-const getUserFromDb = (
+export const getUserFromDb = (
         username, 
         callback = (result) => {console.log(result[0])}
     ) => {
@@ -54,7 +56,7 @@ const getUserFromDb = (
         }
     }
 }
-const delUserFromDb = (username) => {
+export const delUserFromDb = (username) => {
     const dbName = "gastro-app"
     const request = indexedDB.open(dbName, 1)
     request.onerror = (e) => {

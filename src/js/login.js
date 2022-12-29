@@ -1,3 +1,6 @@
+import {idbSupport, addUserToDb} from './idb.js'
+import {homePage, manageListPage, useListPage, statPage, accountPage} from './navbar.js'
+
 // service functions
 const previewFile = () => {
     let preview = document.querySelector('#photo')
@@ -81,7 +84,7 @@ const addUser = () => {
 }
 
 // render tutorial page
-const initApp = (data = false, userReg = false) => {
+export const initApp = (data = false, userReg = false) => {
     event.preventDefault()
     let photo = './assets/noavatar.png'
     if (document.querySelector('#photo')) photo = document
@@ -144,7 +147,7 @@ const initApp = (data = false, userReg = false) => {
 }
 
 // render navbar icons and main functions
-const goShopping = () => {
+export const goShopping = () => {
     let globalJson = JSON.parse(localStorage.getItem('Session'))
     localStorage.setItem(
         `${globalJson.username}_tutorial`, 

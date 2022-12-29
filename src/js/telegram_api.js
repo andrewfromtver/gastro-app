@@ -1,5 +1,5 @@
 // feedback
-const sendFeedback = (username, description) => {
+export const sendFeedback = (username, description) => {
     event.preventDefault()
     fetch('https://api.telegram.org/bot' +
         '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
@@ -22,7 +22,7 @@ const sendFeedback = (username, description) => {
 }
 
 // send list
-const sendList = () => {
+export const sendList = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let list = ''
     let count = 1

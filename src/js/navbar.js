@@ -1,5 +1,9 @@
+import {guid, saveBtnListner} from './main.js'
+import {database}  from '../database.js'
+import {addItem, } from './items.js'
+
 // nav buttons
-const homePage = () => {
+export const homePage = () => {
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
         <div stye="width: 100%;" class="title">
@@ -47,7 +51,7 @@ const homePage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-const manageListPage = (components = false) => {
+export const manageListPage = (components = false) => {
     let items = []
     let username = JSON.parse(localStorage.getItem('Session')).username
     if (sessionStorage.getItem(`${username}_list`)) {
@@ -95,7 +99,7 @@ const manageListPage = (components = false) => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout( () => {saveBtnListner()}, 750)
 }
-const useListPage = () => {
+export const useListPage = () => {
     document.querySelector('body').style.backgroundImage = `url('./assets/food.jpg')`
     document.querySelector('nav').innerHTML = `
         <div class="title">
@@ -141,7 +145,7 @@ const useListPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-const statPage = () => {
+export const statPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
@@ -202,7 +206,7 @@ const statPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-const accountPage = () => {
+export const accountPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
     document.querySelector('nav').innerHTML = `
