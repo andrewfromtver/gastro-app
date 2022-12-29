@@ -4,6 +4,24 @@ import noAvatarImg from '../assets/no-avatar.png'
 import addPhotoImg from '../assets/add-photo.svg'
 import loginImg from '../assets/login.svg'
 
+import searchImg from '../assets/search.svg'
+import backImg from '../assets/back.svg'
+import addToCartImg from '../assets/add-to-cart.svg'
+import editImg from '../assets/edit.svg'
+import sendImg from '../assets/send.svg'
+import likeImg from '../assets/like.svg'
+
+import homeImg from '../assets/home.svg'
+import manageListImg from '../assets/manage-list.svg'
+import useListImg from '../assets/use-list.svg'
+import statImg from '../assets/stat.svg'
+import personImg from '../assets/person.svg'
+
+import menuImg from '../assets/1.gif'
+import itemsImg from '../assets/2.gif'
+import menuListImg from '../assets/3.gif'
+import itemsListImg from '../assets/4.gif'
+
 
 // css import
 import '../css/style.css'
@@ -15,6 +33,8 @@ import '../css/animate.min.css'
 import { database } from './database'
 import { idbSupport, initDb, addUserToDb, getUserFromDb, delUserFromDb } from './idb.js'
 import { sendFeedback, sendList } from './telegram_api.js'
+
+
 
 // render wellcome page
 const addUser = () => {
@@ -108,9 +128,112 @@ const previewFile = () => {
     document.querySelector('input[type=file]').value = ''
 }
 
+// render tutorial page
+const initApp = (data = false, userReg = false) => {
+    let photo = noAvatarImg
+    if (document.querySelector('#photo')) photo = document
+        .querySelector('#photo').src
+    let inner = ''
+    let inner2 = ''
+    let dbData = {
+        username: data.username,
+        userpic: photo,
+        useragent: data.useragent
+    }
+    if (idbSupport) {
+        if (userReg) delUserFromDb(data.username)
+        addUserToDb(dbData)
+    }
+    if (data) {
+        localStorage.setItem('Session', JSON.stringify(data))
+        inner += `
+            <nav>
+                <div class="title">
+                    <h2 class="animate__animated animate__slideInLeft">
+                        Обучение
+                    </h2>
+                </div>
+            </nav>
+            <div class="content">
+                <video 
+                    controls 
+                    autoplay 
+                    id="tutorial" 
+                    class="animate__animated animate__zoomIn"
+                >
+                    <source src="./tutorial.mp4" type="video/mp4">
+                </video>
+            </div>
+            <footer></footer>
+        `
+        inner2 = `
+            <button id="go-shopping">Все поняно, продолжим!</button>
+        `
+    }
+    else {
+        inner = `
+            <h3>Внутренняя ошибка, пожалуйста перезагрузите приложениею</h3>
+            <button id="logout">Перезагрузить</button>
+        `
+        console.error('Wrong UI init mode [can\'t load username].')
+    }
+    document.querySelector('#gastro-app').innerHTML = inner
+    document.querySelector('footer').innerHTML = inner2
+    if (data) {
+        document.querySelector('#go-shopping').onclick = () => {
+            goShopping()
+        }   
+    }
+    let globalJson = JSON.parse(localStorage.getItem('Session'))
+    if (localStorage.getItem(`${globalJson.username}_tutorial`)) {
+        goShopping()
+    }
+}
+
+// render navbar icons and main functions
+const goShopping = () => {
+    let globalJson = JSON.parse(localStorage.getItem('Session'))
+    localStorage.setItem(
+        `${globalJson.username}_tutorial`, 
+        'Tutorial compleated'
+    )
+    let inner = `
+        <img src="${homeImg}" id="home" alt="home">
+        <img src="${manageListImg}" id="manage_list" alt="manage list">
+        <img src="${useListImg}" id="use_list" alt="use list">
+        <img src="${statImg}" id="stat" alt="stat">
+        <img src="${personImg}" id="account" alt="account">
+    `
+    document.querySelector('.content').innerHTML = ''
+    document.querySelector('footer').innerHTML = inner
+    home.onclick = () => {
+        homePage()
+    }
+    manage_list.onclick = () => {
+        manageListPage()
+    }
+    use_list.onclick = () => {
+        useListPage()
+    }
+    stat.onclick = () => {
+        statPage()
+    }
+    account.onclick = () => {
+        accountPage()
+    }
+    homePage()
+    fetch('https://api.telegram.org/bot' +
+        '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
+        '/sendMessage?parse_mod=html&chat_id=-1001838020997&text=' +
+        `${encodeURIComponent('Username: ' + globalJson.username + ' \n')}` +
+        `${encodeURIComponent('Useragent: ' + globalJson.useragent)}`)
+}
+
+
+
 // nav buttons
 const homePage = () => {
-    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
+    document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     document.querySelector('nav').innerHTML = `
         <div stye="width: 100%;" class="title">
             <h2 style="width: calc(100vw - 32px); text-align: center;" class="animate__animated animate__slideInLeft">Gastro App</h2>
@@ -122,33 +245,34 @@ const homePage = () => {
                 <form id="searchForm">
                     <input 
                         name="query"
+                        id="searchQuery"
                         required
                         type="text" 
                         placeholder="Введите название рецепта"
                         maxlength="256"
                     >
                     <button>
-                        <img src="./assets/search.svg">
+                        <img src="${searchImg}">
                     </button>
                 </form>
             </div>
             <div>
-                <button onclick="menuPage()">
-                    <img src="./assets/1.gif">
+                <button id="menuPageBtn">
+                    <img src="${menuImg}">
                     Список рецептов
                 </button>
-                <button onclick="useListPage()">
-                    <img src="./assets/2.gif">
+                <button id="useListPageBtn">
+                    <img src="${itemsImg}">
                     Список покупок
                 </button>
             </div>
             <div>
-                <button onclick="likedMenuPage()">
-                    <img src="./assets/3.gif">
+                <button id="likedMenuPageBtn">
+                    <img src="${menuListImg}">
                     Избранные рецепты
                 </button>
-                <button onclick="likedListPage()">
-                    <img src="./assets/4.gif">
+                <button id="likedListPageBtn">
+                    <img src="${itemsListImg}">
                     Избранные покупки
                 </button>
             </div>
@@ -158,9 +282,120 @@ const homePage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     searchForm.onsubmit = () => {
         event.preventDefault()
-        menuPage(this.query.value)
+        menuPage(searchQuery.value)
+    }
+    menuPageBtn.onclick = () => {
+        menuPage()
+    }
+    useListPageBtn.onclick = () => {
+        useListPage()
+    }
+    likedMenuPageBtn.onclick = () => {
+        likedMenuPage()
+    }
+    likedListPageBtn.onclick = () => {
+        likedListPage()
     }
 }
+
+// home page service functions
+const menuPage = (query = false, tag = false) => {
+    let result = []
+    if (!query) result = database
+    else {
+        database.forEach(e => {
+            if (e.title.toLowerCase().includes(query.toLowerCase())) {
+                result.push(e)
+            }
+        })
+    }
+    document.querySelector('body').style.backgroundImage = `url(${bgImg})`
+    let exec = 'homePage()'
+    if (tag) exec = 'menuPage()'
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+            <img 
+                class="animate__animated animate__slideInLeft" 
+                src="${backImg}" 
+                onclick="${exec}"
+            >
+            <h2 class="animate__animated animate__slideInLeft">
+                ${tag || 'Рецепты'}
+            </h2>
+        </div>
+        <div class="searchbar-nav">
+            <form onsubmit="menuPage(this.query.value)">
+            <input maxlength="256" name="query" type="text">
+            <button>
+                <img src="${searchImg}">
+            </button>
+            </form>
+        </div>
+    `
+    let typesInner = ''
+    let types = []
+    let inner = '<div class="menu"><div class="types animate__animated animate__slideInLeft"></div>'
+    let tagResult = []
+    if (tag) {
+        result.forEach(e => {
+            if (e.type === tag) tagResult.push(e)
+        })
+        result = tagResult
+    }
+    result.forEach(e => {
+        inner += `
+            <div 
+                onclick="showItem(this.id)" 
+                class="card menu-item animate__animated animate__zoomIn" 
+                id="${e.id}"
+            >
+                <img class="img"src="${e.img || './assets/no-image.png'}">
+                <img 
+                    id="${e.id}" 
+                    class="like" 
+                    onclick="likeUnlike(this.id)" 
+                    src="${likeImg}"
+                >
+                <h3>${e.title}</h3>
+                <p>${e.type}</p>
+            </div>
+        `
+        types.push(e.type)
+    })
+    inner += '</div><br>'
+    if (result.length === 0) {
+        inner += `
+            <div class="detail">
+                <h3>¯\\_(ツ)_/¯</h3>
+            </div>
+        `
+    }
+    [... new Set(types)].forEach(e => {
+        typesInner += `
+            <div onclick="menuPage(false, this.innerText)">${e}</div>
+        `
+    })
+    document.querySelector('.content').innerHTML = inner
+    if (!query && !tag) document.querySelector('.types').innerHTML = typesInner
+    if (query) document.querySelector('input').value = query
+    refreshLikeIcons()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const manageListPage = (components = false) => {
     let items = []
     let username = JSON.parse(localStorage.getItem('Session')).username
@@ -174,10 +409,10 @@ const manageListPage = (components = false) => {
     }
     let uniqueItems = [...new Set(items)]
     sessionStorage.setItem(`${username}_list`, JSON.stringify(items))
-    document.querySelector('body').style.backgroundImage = `url('./assets/food.jpg')`
+    document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <img class="animate__animated animate__slideInLeft" src="${backImg}" onclick="homePage()">
             <h2 class="animate__animated animate__slideInLeft">Список</h2>
         </div>
     `
@@ -200,7 +435,7 @@ const manageListPage = (components = false) => {
             </table>
             <div>
                 <button>
-                    <img onclick="addItem()"src="./assets/add_to_cart.svg">
+                    <img onclick="addItem()" src="${addToCartImg}">
                 </button>
             </div>
         </div>
@@ -209,11 +444,24 @@ const manageListPage = (components = false) => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout( () => {saveBtnListner()}, 750)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 const useListPage = () => {
-    document.querySelector('body').style.backgroundImage = `url('./assets/food.jpg')`
+    document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <img class="animate__animated animate__slideInLeft" src="${backImg}" onclick="homePage()">
             <h2 class="animate__animated animate__slideInLeft">Покупки</h2>
         </div>
     `
@@ -247,7 +495,7 @@ const useListPage = () => {
             </table>
             <div>
                 <button>
-                    <img onclick="manageListPage()"src="./assets/edit.svg">
+                    <img onclick="manageListPage()" src="${editImg}">
                 </button>
             </div>
         </div>
@@ -255,12 +503,35 @@ const useListPage = () => {
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const statPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
-    document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
+    document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     document.querySelector('nav').innerHTML = `
         <div class="title">
-            <img class="animate__animated animate__slideInLeft" src="./assets/back.svg" onclick="homePage()">
+            <img class="animate__animated animate__slideInLeft" src="${backImg}" onclick="homePage()">
             <h2 class="animate__animated animate__slideInLeft">Статистика</h2>
         </div>
     `
@@ -309,13 +580,36 @@ const statPage = () => {
                 required
             ></textarea>
             <button>
-                <img src="./assets/send.svg">
+                <img src="${sendImg}">
             </button>
         </form>
     `
     document.querySelector('.content').innerHTML = inner
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const accountPage = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     document.querySelector('body').style.backgroundImage = 'url(./assets/food.jpg)'
@@ -713,192 +1007,11 @@ const saveId = (id) => {
     localStorage.setItem(`${username}_chatId`, id)
 } 
 
-// render tutorial page
-const initApp = (data = false, userReg = false) => {
-    event.preventDefault()
-    let photo = noAvatarImg
-    if (document.querySelector('#photo')) photo = document
-        .querySelector('#photo').src
-    let inner = ''
-    let inner2 = ''
-    let dbData = {
-        username: data.username,
-        userpic: photo,
-        useragent: data.useragent
-    }
-    if (idbSupport) {
-        if (userReg) delUserFromDb(data.username)
-        addUserToDb(dbData)
-    }
-    if (data) {
-        localStorage.setItem('Session', JSON.stringify(data))
-        inner += `
-            <nav>
-                <div class="title">
-                    <h2 class="animate__animated animate__slideInLeft">
-                        Обучение
-                    </h2>
-                </div>
-            </nav>
-            <div class="content">
-                <video 
-                    controls 
-                    autoplay 
-                    id="tutorial" 
-                    class="animate__animated animate__zoomIn"
-                >
-                    <source src="./assets/tutorial.mp4" type="video/mp4">
-                </video>
-            </div>
-            <footer></footer>
-        `
-        inner2 = `
-            <button id="go-shopping">Все поняно, продолжим!</button>
-        `
-    }
-    else {
-        inner = `
-            <h3>Внутренняя ошибка, пожалуйста перезагрузите приложениею</h3>
-            <button id="logout">Перезагрузить</button>
-        `
-        console.error('Wrong UI init mode [can\'t load username].')
-    }
-    document.querySelector('#gastro-app').innerHTML = inner
-    document.querySelector('footer').innerHTML = inner2
-    if (data) {
-        document.querySelector('#go-shopping').onclick = () => {
-            goShopping()
-        }   
-    }
-    let globalJson = JSON.parse(localStorage.getItem('Session'))
-    if (localStorage.getItem(`${globalJson.username}_tutorial`)) {
-        goShopping()
-    }
-}
 
-// render navbar icons and main functions
-const goShopping = () => {
-    let globalJson = JSON.parse(localStorage.getItem('Session'))
-    localStorage.setItem(
-        `${globalJson.username}_tutorial`, 
-        'Tutorial compleated'
-    )
-    let inner = `
-        <img src="./assets/home.svg" id="home" alt="home">
-        <img src="./assets/manage_list.svg" id="manage_list" alt="manage list">
-        <img src="./assets/use_list.svg" id="use_list" alt="use list">
-        <img src="./assets/stat.svg" id="stat" alt="stat">
-        <img src="./assets/person.svg" id="account" alt="account">
-    `
-    document.querySelector('.content').innerHTML = ''
-    document.querySelector('footer').innerHTML = inner
-    home.onclick = () => {
-        homePage()
-    }
-    manage_list.onclick = () => {
-        manageListPage()
-    }
-    use_list.onclick = () => {
-        useListPage()
-    }
-    stat.onclick = () => {
-        statPage()
-    }
-    account.onclick = () => {
-        accountPage()
-    }
-    homePage()
-    fetch('https://api.telegram.org/bot' +
-        '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
-        '/sendMessage?parse_mod=html&chat_id=-1001838020997&text=' +
-        `${encodeURIComponent('Username: ' + globalJson.username + ' \n')}` +
-        `${encodeURIComponent('Useragent: ' + globalJson.useragent)}`)
-}
+
 
 // hidden app pages
-const menuPage = (query = false, tag = false) => {
-    let result = []
-    if (!query) result = database
-    else {
-        database.forEach(e => {
-            if (e.title.toLowerCase().includes(query.toLowerCase())) {
-                result.push(e)
-            }
-        })
-    }
-    document.querySelector('body').style
-        .backgroundImage = 'url(./assets/food.jpg)'
-    let exec = 'homePage()'
-    if (tag) exec = 'menuPage()'
-    document.querySelector('nav').innerHTML = `
-        <div class="title">
-            <img 
-                class="animate__animated animate__slideInLeft" 
-                src="./assets/back.svg" 
-                onclick="${exec}"
-            >
-            <h2 class="animate__animated animate__slideInLeft">
-                ${tag || 'Рецепты'}
-            </h2>
-        </div>
-        <div class="searchbar-nav">
-            <form onsubmit="menuPage(this.query.value)">
-            <input maxlength="256" name="query" type="text">
-            <button>
-                <img src="./assets/search.svg">
-            </button>
-            </form>
-        </div>
-    `
-    let typesInner = ''
-    let types = []
-    let inner = '<div class="menu"><div class="types animate__animated animate__slideInLeft"></div>'
-    let tagResult = []
-    if (tag) {
-        result.forEach(e => {
-            if (e.type === tag) tagResult.push(e)
-        })
-        result = tagResult
-    }
-    result.forEach(e => {
-        inner += `
-            <div 
-                onclick="showItem(this.id)" 
-                class="card menu-item animate__animated animate__zoomIn" 
-                id="${e.id}"
-            >
-                <img class="img"src="${e.img || './assets/no-image.png'}">
-                <img 
-                    id="${e.id}" 
-                    class="like" 
-                    onclick="likeUnlike(this.id)" 
-                    src="./assets/like.svg"
-                >
-                <h3>${e.title}</h3>
-                <p>${e.type}</p>
-            </div>
-        `
-        types.push(e.type)
-    })
-    inner += '</div><br>'
-    if (result.length === 0) {
-        inner += `
-            <div class="detail">
-                <h3>¯\\_(ツ)_/¯</h3>
-            </div>
-        `
-    }
-    [... new Set(types)].forEach(e => {
-        typesInner += `
-            <div onclick="menuPage(false, this.innerText)">${e}</div>
-        `
-    })
-    document.querySelector('.content').innerHTML = inner
-    if (!query && !tag) document.querySelector('.types').innerHTML = typesInner
-    if (query) document.querySelector('input').value = query
-    refreshLikeIcons()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+
 const likedMenuPage = (query = false) => {
     event.preventDefault()
     let username = JSON.parse(localStorage.getItem('Session')).username
