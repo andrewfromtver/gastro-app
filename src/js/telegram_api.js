@@ -33,7 +33,7 @@ export const sendList = () => {
     })
 
     if (localStorage.getItem(`${username}_chatId`)) {
-        chatId = JSON.parse(localStorage.getItem(`${username}_chatId`))
+        let chatId = JSON.parse(localStorage.getItem(`${username}_chatId`))
 
         fetch('https://api.telegram.org/bot' +
             '5837458997:AAGRCm4-pih4NBvUrvTz4QN3Lv3MV7j8UR8' +
