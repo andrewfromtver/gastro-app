@@ -652,7 +652,7 @@ const likedMenuPage = (query = false) => {
     result.forEach(e => {
         document.body.querySelector(`#${e}`).onclick = () => { showItem(e, 'liked') }
     })
-    menuPageBtn.onclick = () => { homePage() }
+    menuPageBtn.onclick = () => { menuPage() }
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 const likedListPage = (query = false) => {
