@@ -1,6 +1,7 @@
 // assets import
 import bgImg from '../assets/food.jpg'
 import noAvatarImg from '../assets/no-avatar.png'
+import noImg from '../assets/no-image.png'
 import addPhotoImg from '../assets/add-photo.svg'
 import loginImg from '../assets/login.svg'
 
@@ -10,6 +11,8 @@ import addToCartImg from '../assets/add-to-cart.svg'
 import editImg from '../assets/edit.svg'
 import sendImg from '../assets/send.svg'
 import likeImg from '../assets/like.svg'
+import addImg from '../assets/add.svg'
+import undoImg from '../assets/undo.svg'
 
 import homeImg from '../assets/home.svg'
 import manageListImg from '../assets/manage-list.svg'
@@ -231,9 +234,8 @@ const goShopping = () => {
 
 
 
-// nav buttons
+// navbar home page
 const homePage = () => {
-    document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     document.querySelector('nav').innerHTML = `
         <div stye="width: 100%;" class="title">
             <h2 style="width: calc(100vw - 32px); text-align: center;" class="animate__animated animate__slideInLeft">Gastro App</h2>
@@ -279,7 +281,6 @@ const homePage = () => {
         </div>
     `
     document.querySelector('.content').innerHTML = inner
-    window.scrollTo({ top: 0, behavior: 'smooth' })
     searchForm.onsubmit = () => {
         event.preventDefault()
         menuPage(searchQuery.value)
@@ -296,6 +297,7 @@ const homePage = () => {
     likedListPageBtn.onclick = () => {
         likedListPage()
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // home page service functions
@@ -309,7 +311,6 @@ const menuPage = (query = false, tag = false) => {
             }
         })
     }
-    document.querySelector('body').style.backgroundImage = `url(${bgImg})`
     let exec = homePage
     if (tag || query) exec = menuPage
     document.querySelector('nav').innerHTML = `
@@ -349,16 +350,17 @@ const menuPage = (query = false, tag = false) => {
         })
         result = tagResult
     }
+    let menuArray = []
+    let likeArray = []
     result.forEach(e => {
         inner += `
             <div 
-                onclick="showItem(this.id)" 
                 class="card menu-item animate__animated animate__zoomIn" 
                 id="${e.id}"
             >
-                <img class="img"src="${e.img || './assets/no-image.png'}">
+                <img class="img"src="${e.img || noImg}">
                 <img 
-                    id="${e.id}" 
+                    id="${e.id}_like" 
                     class="like" 
                     onclick="likeUnlike(this.id)" 
                     src="${likeImg}"
@@ -368,8 +370,11 @@ const menuPage = (query = false, tag = false) => {
             </div>
         `
         types.push(e.type)
+        menuArray.push(e.id)
+        likeArray.push(`${e.id}_like`)
     })
     inner += '</div><br>'
+    let typesArray = []
     if (result.length === 0) {
         inner += `
             <div class="detail">
@@ -378,16 +383,178 @@ const menuPage = (query = false, tag = false) => {
         `
     }
     [... new Set(types)].forEach(e => {
+        let id = guid()
         typesInner += `
-            <div onclick="menuPage(false, this.innerText)">${e}</div>
+            <div id="${id}">${e}</div>
         `
+        typesArray.push(id)
     })
     document.querySelector('.content').innerHTML = inner
-    if (!query && !tag) document.querySelector('.types').innerHTML = typesInner
+    if (!query && !tag) {
+        document.querySelector('.types').innerHTML = typesInner
+        typesArray.forEach(e => {
+            document.body.querySelector(`#${e}`).onclick = () => {
+                menuPage(false, document.body.querySelector(`#${e}`).innerText)
+            }
+        })
+    }
     if (query) document.querySelector('input').value = query
+    menuArray.forEach(e => {
+        document.body.querySelector(`#${e}`).onclick = () => {
+            showItem(e)
+        }
+    })
+    likeArray.forEach(e => {
+        document.body.querySelector(`#${e}`).onclick = () => {
+            likeUnlike(e)
+        }
+    })
     refreshLikeIcons()
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+const likeUnlike = (id) => {
+    if (!e) var e = window.event
+    e.cancelBubble = true
+    if (e.stopPropagation) e.stopPropagation()
+    
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let items = []
+    if (localStorage.getItem(`${username}_liked`)) {
+        items = JSON.parse(localStorage.getItem(`${username}_liked`))
+    }
+    if (items.includes(id)) {
+        const i = items.indexOf(id)
+        if (i > -1) {
+            items.splice(i, 1)
+        }
+    }
+    else {
+        items.push(id)
+    }
+    localStorage.setItem(`${username}_liked`, JSON.stringify(items))
+    refreshLikeIcons()
+}
+const refreshLikeIcons = () => {
+    let username = JSON.parse(localStorage.getItem('Session')).username
+    let items = []
+    if (localStorage.getItem(`${username}_liked`)) {
+        items = JSON.parse(localStorage.getItem(`${username}_liked`))
+    }
+    let icons = document.body.querySelectorAll('img.like')
+    icons.forEach(e => {
+        if (items.includes(e.id)) e.style.opacity = '1'
+        else e.style.opacity = '0.2'
+    })
+}
+const showItem = (id, backTo = 'menu') => {
+    let e = {}
+    database.forEach(el => {
+        if (el.id == id) e = el
+    })
+    let components = ''
+    e.components.forEach(e => {
+        components += `
+            <li>${e}</li>
+        `
+    })
+    let instruction = ''
+    e.instruction.forEach(e => {
+        instruction += `
+            <p>${e}</p>
+        `
+    })
+    let calories = ''
+    e.calories.forEach(e => {
+        calories += `
+            <li>${e}</li>
+        `
+    })
+    let inner = `
+        <div class="detail animate__animated animate__zoomIn" id="${e.id}">
+            <h2>${e.title}</h2>
+            <img class="user-photo" src="${e.img || noImg}">
+            <p>${e.description}</p>
+            <h3>Ингридиенты</h3>
+            <ul id="components">
+                ${components}
+            </ul>
+            <div>
+                <button id="manageBtn">
+                    <img src="${addImg}">
+                </button>
+            </div>
+            <h3>Как приготовить</h3>
+            <div>
+                ${instruction}
+            </div>
+            <h3>Калорийность</h3>
+            <ul>
+                ${calories}
+            </ul>
+    `
+    if (backTo === 'menu') {
+        inner += `
+                <div>
+                    <button id="menuBtn">
+                        <img src="${undoImg}">
+                    </button>
+                </div>
+            </div>
+        `
+    }
+    else if (backTo === 'liked') {
+        inner += `
+                <div>
+                    <button id="menuBtn3">
+                        <img src="${undoImg}">
+                    </button>
+                </div>
+            </div>
+        `
+    }
+    else {
+        inner += `
+            </div>
+        `
+    }
+    document.querySelector('.content').innerHTML = inner
+    let execOption = menuPage
+    if (backTo === 'menu') execOption = menuPage
+    else if (backTo === 'liked') execOption = likedMenuPage
+    document.querySelector('nav').innerHTML = `
+        <div class="title">
+        <img 
+            class="animate__animated animate__slideInLeft" 
+            src="${backImg}" 
+            id="menuBtn2"
+        >
+            <h2 class="animate__animated animate__slideInLeft">Детали</h2>
+        </div>
+    `
+    if (backTo === 'menu') menuBtn.onclick = () => {
+        menuPage()
+    }
+    menuBtn2.onclick = () => {
+        execOption()
+    }
+    if (backTo === 'liked') menuBtn3.onclick = () => {
+        likedMenuPage()
+    }
+    manageBtn.onclick = () => {
+        manageListPage(document.body.querySelector('#components'))
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -732,93 +899,6 @@ const editItem = () => {
     let uniqueItems = [...new Set(items)]
     sessionStorage.setItem(`${username}_list`, JSON.stringify(uniqueItems))
 }
-const showItem = (id, backTo = 'menu') => {
-    let e = {}
-    database.forEach(el => {
-        if (el.id == id) e = el
-    })
-    let components = ''
-    e.components.forEach(e => {
-        components += `
-            <li>${e}</li>
-        `
-    })
-    let instruction = ''
-    e.instruction.forEach(e => {
-        instruction += `
-            <p>${e}</p>
-        `
-    })
-    let calories = ''
-    e.calories.forEach(e => {
-        calories += `
-            <li>${e}</li>
-        `
-    })
-    let inner = `
-        <div class="detail animate__animated animate__zoomIn" id="${e.id}">
-            <h2>${e.title}</h2>
-            <img class="user-photo" src="${e.img || './assets/no-image.png'}">
-            <p>${e.description}</p>
-            <h3>Ингридиенты</h3>
-            <ul id="components">
-                ${components}
-            </ul>
-            <div>
-                <button onclick="manageListPage(components)">
-                    <img src="./assets/add.svg">
-                </button>
-            </div>
-            <h3>Как приготовить</h3>
-            <div>
-                ${instruction}
-            </div>
-            <h3>Калорийность</h3>
-            <ul>
-                ${calories}
-            </ul>
-    `
-    if (backTo === 'menu') {
-        inner += `
-                <div>
-                    <button onclick="menuPage()">
-                        <img src="./assets/undo.svg">
-                    </button>
-                </div>
-            </div>
-        `
-    }
-    else if (backTo === 'liked') {
-        inner += `
-                <div>
-                    <button onclick="likedMenuPage()">
-                        <img src="./assets/undo.svg">
-                    </button>
-                </div>
-            </div>
-        `
-    }
-    else {
-        inner += `
-            </div>
-        `
-    }
-    document.querySelector('.content').innerHTML = inner
-    let execOption = 'menuPage()'
-    if (backTo === 'menu') execOption = 'menuPage()'
-    else if (backTo === 'liked') execOption = 'likedMenuPage()'
-    document.querySelector('nav').innerHTML = `
-        <div class="title">
-        <img 
-            class="animate__animated animate__slideInLeft" 
-            src="./assets/back.svg" 
-            onclick="${execOption}"
-        >
-            <h2 class="animate__animated animate__slideInLeft">Детали</h2>
-        </div>
-    `
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-}
 const clearAllItems = () => {
     let username = JSON.parse(localStorage.getItem('Session')).username
     let uniqueItems = []
@@ -826,41 +906,6 @@ const clearAllItems = () => {
     manageListPage()
 }
 
-// liked items processing
-const likeUnlike = (id) => {
-    if (!e) var e = window.event
-    e.cancelBubble = true
-    if (e.stopPropagation) e.stopPropagation()
-    
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let items = []
-    if (localStorage.getItem(`${username}_liked`)) {
-        items = JSON.parse(localStorage.getItem(`${username}_liked`))
-    }
-    if (items.includes(id)) {
-        const i = items.indexOf(id)
-        if (i > -1) {
-            items.splice(i, 1)
-        }
-    }
-    else {
-        items.push(id)
-    }
-    localStorage.setItem(`${username}_liked`, JSON.stringify(items))
-    refreshLikeIcons()
-}
-const refreshLikeIcons = () => {
-    let username = JSON.parse(localStorage.getItem('Session')).username
-    let items = []
-    if (localStorage.getItem(`${username}_liked`)) {
-        items = JSON.parse(localStorage.getItem(`${username}_liked`))
-    }
-    let icons = document.body.querySelectorAll('img.like')
-    icons.forEach(e => {
-        if (items.includes(e.id)) e.style.opacity = '1'
-        else e.style.opacity = '0.2'
-    })
-}
 
 // lists processing
 const saveList = () => {
