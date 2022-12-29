@@ -301,6 +301,17 @@ const homePage = () => {
 }
 
 // home page service functions
+export let guid = () => {
+    let length = 32
+    var result = ''
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    var charactersLength = characters.length
+    for ( var i = 0; i < length; i++ ) {
+        result += characters
+            .charAt(Math.floor(Math.random() * charactersLength))
+    }
+    return result
+}
 const menuPage = (query = false, tag = false) => {
     let result = []
     if (!query) result = database
@@ -981,17 +992,7 @@ const logout = () => {
     localStorage.removeItem('Session')
     window.location.reload()
 }
-export let guid = () => {
-    let length = 32
-    var result = ''
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    var charactersLength = characters.length
-    for ( var i = 0; i < length; i++ ) {
-        result += characters
-            .charAt(Math.floor(Math.random() * charactersLength))
-    }
-    return result
-}
+
 const checkUncheck = (id) => {
     if (document.body.querySelector(`.${id}`).style.textDecoration === 'line-through') document.body.querySelector(`.${id}`).style.textDecoration = ''
     else document.body.querySelector(`.${id}`).style.textDecoration = 'line-through'
